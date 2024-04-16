@@ -4,7 +4,7 @@ import {storeSignUp} from "../../api/StoreApi";
 import {createBusinessNumber} from "../../api/Revenue";
 import {useNavigate} from "react-router-dom";
 
-function dataParse(data)  {
+function dataParse(data) {
     const jsonString = JSON.stringify(data);
     const parsedObj = JSON.parse(jsonString);
     return parsedObj.message;
@@ -44,71 +44,84 @@ function StoreSignUpPage() {
     }
 
     const getBusinessNumber = async () => {
-        alert(createBusinessNumber());
+        try {
+
+            const data = await createBusinessNumber();
+            const jsonString = JSON.stringify(data);
+            const parsedObj = JSON.parse(jsonString);
+
+            alert(parsedObj.number);
+
+        } catch (error) {
+            alert(dataParse(error.response.data));
+        }
     }
 
-    return (<StyledContainer>
-        <SignUpContainer>
-            <h1>SignUp</h1>
-            <div className="signup-form">
-                <form onSubmit={signUp}>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">이메일</span>
-                        <input type="text" className="form-control" value={email}
-                               onChange={(e) => setEmail(e.target.value)}
-                               placeholder="이메일" aria-label="Username"
-                               aria-describedby="basic-addon1"/>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">비밀번호</span>
-                        <input type="password" className="form-control" value={password}
-                               onChange={(e) => setPassword(e.target.value)}
-                               placeholder="비밀번호" aria-label="Password"
-                               aria-describedby="basic-addon1"/>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">비밀번호 재확인</span>
-                        <input type="password" className="form-control" value={validatePassword}
-                               onChange={(e) => setValidatePassword(e.target.value)}
-                               placeholder="비밀번호 재확인" aria-label="Password"
-                               aria-describedby="basic-addon1"/>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">상점 이름</span>
-                        <input type="text" className="form-control" value={name}
-                               onChange={(e) => setName(e.target.value)}
-                               placeholder="상점 이름" aria-label="Password"
-                               aria-describedby="basic-addon1"/>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">상점 설명</span>
-                        <input type="text" className="form-control" value={description}
-                               onChange={(e) => setDescription(e.target.value)}
-                               placeholder="상점 설명" aria-label="Password"
-                               aria-describedby="basic-addon1"/>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">전화번호</span>
-                        <input type="text" className="form-control" value={phone}
-                               onChange={(e) => setPhone(e.target.value)}
-                               placeholder="전화 번호" aria-label="Password"
-                               aria-describedby="basic-addon1"/>
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">사업자 등록 번호</span>
-                        <input type="text" className="form-control" value={businessNumber}
-                               onChange={(e) => setBusinessNumber(e.target.value)}
-                               placeholder="사업자 등록 번호" aria-label="Password"
-                               aria-describedby="basic-addon1"/>
-                        <button type={"button"} onClick={getBusinessNumber} className="btn btn-primary">발급</button>
-                    </div>
-                    <div className="group">
-                        <StyledInput className="btn btn-primary" type="submit" value="회원가입"/>
-                    </div>
-                </form>
-            </div>
-        </SignUpContainer>
-    </StyledContainer>)
+
+    return (
+        <StyledContainer>
+            <SignUpContainer>
+                <h1>SignUp</h1>
+                <div className="signup-form">
+                    <form onSubmit={signUp}>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">이메일</span>
+                            <input type="text" className="form-control" value={email}
+                                   onChange={(e) => setEmail(e.target.value)}
+                                   placeholder="이메일" aria-label="Username"
+                                   aria-describedby="basic-addon1"/>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">비밀번호</span>
+                            <input type="password" className="form-control" value={password}
+                                   onChange={(e) => setPassword(e.target.value)}
+                                   placeholder="비밀번호" aria-label="Password"
+                                   aria-describedby="basic-addon1"/>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">비밀번호 재확인</span>
+                            <input type="password" className="form-control" value={validatePassword}
+                                   onChange={(e) => setValidatePassword(e.target.value)}
+                                   placeholder="비밀번호 재확인" aria-label="Password"
+                                   aria-describedby="basic-addon1"/>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">상점 이름</span>
+                            <input type="text" className="form-control" value={name}
+                                   onChange={(e) => setName(e.target.value)}
+                                   placeholder="상점 이름" aria-label="Password"
+                                   aria-describedby="basic-addon1"/>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">상점 설명</span>
+                            <input type="text" className="form-control" value={description}
+                                   onChange={(e) => setDescription(e.target.value)}
+                                   placeholder="상점 설명" aria-label="Password"
+                                   aria-describedby="basic-addon1"/>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">전화번호</span>
+                            <input type="text" className="form-control" value={phone}
+                                   onChange={(e) => setPhone(e.target.value)}
+                                   placeholder="전화 번호" aria-label="Password"
+                                   aria-describedby="basic-addon1"/>
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="basic-addon1">사업자 등록 번호</span>
+                            <input type="text" className="form-control" value={businessNumber}
+                                   onChange={(e) => setBusinessNumber(e.target.value)}
+                                   placeholder="사업자 등록 번호" aria-label="Password"
+                                   aria-describedby="basic-addon1"/>
+                            <button type={"button"} onClick={getBusinessNumber} className="btn btn-primary">발급</button>
+                        </div>
+                        <div className="group">
+                            <StyledInput className="btn btn-primary" type="submit" value="회원가입"/>
+                        </div>
+                    </form>
+                </div>
+            </SignUpContainer>
+        </StyledContainer>
+    )
 }
 
 const StyledContainer = styled.div`
