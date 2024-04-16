@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import DashboardPage from '../pages/DashboardPage';
-import MemberSignInPage from '../pages/MemberSignInPage';
-import MemberSignUpPage from "../pages/MemberSignUpPage";
-import App from '../App';
+import MemberSignInPage from '../pages/member/MemberSignInPage';
+import MemberSignUpPage from "../pages/member/MemberSignUpPage";
+import StoreSignInPage from "../pages/store/StoreSignInPage";
+import StoreSignUpPage from "../pages/store/StoreSignUpPage";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Main from "../pages/Main";
@@ -23,6 +24,8 @@ const Router = () => {
                 <Route path="/products/:productId" element={<ProductDetailsPage />} />
                 <Route path="/login" element={<MemberSignInPage/>}/>
                 <Route path="/signup" element={<MemberSignUpPage/>}/>
+                <Route path="/shops/login" element={<StoreSignInPage/>}/>
+                <Route path="/shops/signup" element={<StoreSignUpPage/>}/>
             </Routes>
             <Footer />
         </BrowserRouter>

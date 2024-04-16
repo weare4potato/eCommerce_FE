@@ -1,24 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
-import {memberSignIn} from "../api/MemberLogin";
-import daumAddress from "./DaumAddress";
+import {storeSignIn} from "../../api/StoreApi";
+import {useNavigate} from "react-router-dom";
 
-function MemberSignInPage() {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+function StoreSignInPage() {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
 
     const signIn = async (event) => {
-        const userData = {email: email, password: password}
+        event.preventDefault();
         try {
-            event.preventDefault();
-            await memberSignIn(userData);
+            const storeData = {email: email, password: password}
 
-        }catch (e){
-            console.error(e);
+            await storeSignIn(storeData);
+
+            let token = localStorage.getItem("Authorization");
+
+            if (token) {
+                navigate("/")
+            }
+        } catch (error) {
+            alert(error.response.data);
         }
-
-
     }
 
     return (
@@ -42,9 +47,15 @@ function MemberSignInPage() {
                                    aria-describedby="basic-addon1"/>
                         </div>
                         <div className="group">
-                            <StyledInput className="btn btn-primary" onSubmit={signIn} type="submit" value="Sing in"/>
+                            <StyledInput className="btn btn-primary"
+                                         onSubmit={signIn}
+                                         type="submit"
+                                         value="로그인"/>
                         </div>
                     </form>
+                    <div>
+                        <a href="/shops/signup">상점 등록하러 가기</a>
+                    </div>
                 </div>
             </SignInContainer>
         </StyledContainer>
@@ -79,4 +90,4 @@ const StyledInput = styled.input`
     width: 100%;
 `
 
-export default MemberSignInPage
+export default StoreSignInPage

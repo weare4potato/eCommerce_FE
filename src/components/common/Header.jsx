@@ -26,11 +26,11 @@ const Header = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto">
-                        <li className="nav-item">
-                            <a className="nav-link" href="/home" onClick={(e) => {
+                        <li>
+                            <a className="nav-link" href="/" onClick={(e) => {
                                 e.preventDefault();
-                                navigate('/');
-                            }}>Home</a>
+                                navigate('/shops/login');
+                            }}>상점 로그인</a>
                         </li>
                         {/* Other navigation links */}
                     </ul>
