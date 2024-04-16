@@ -14,7 +14,6 @@ function ProductsByShopsList() {
                 const response = await getProductsByShop(shopId);
                 console.log('Response:', response);
 
-                // 여기서 바로 response.content에 접근합니다.
                 if (response && response.content) {
                     console.log('Setting products:', response.content);
                     setProducts(response.content);
