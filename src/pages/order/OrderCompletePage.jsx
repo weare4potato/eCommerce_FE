@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { completeOrder } from '../api/OrderApi'; // completeOrder 함수를 가져옵니다.
+import { completeOrder } from '../../api/OrderApi'; // completeOrder 함수를 가져옵니다.
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function OrderCompletePage() {

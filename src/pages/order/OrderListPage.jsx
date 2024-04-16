@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { getOrders } from '../api/OrderApi'; // orderApi.js 파일에서 getOrders 함수 가져옴
+import { getOrders } from '../../api/OrderApi';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
 
