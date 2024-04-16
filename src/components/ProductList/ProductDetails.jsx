@@ -129,15 +129,20 @@ const CounterContainer = styled.div`
 `;
 
 const QuantityInput = styled.input`
-    /* 스타일 조정 */
-    width: 3rem; // 인풋 창의 크기를 조절합니다.
-    margin: 0 0.5rem; // 좌우 여백을 추가합니다.
+    width: 3rem; // 인풋 창의 너비를 설정합니다.
+    height: 2.5rem; // 인풋 창의 높이를 높입니다.
     text-align: center;
-    // 스핀 버튼을 숨깁니다.
+    border: 1px solid #dee2e6;
+    line-height: 1.5;
+    font-size: 1rem; // 폰트 크기를 조정할 수 있습니다.
+    // 인풋 창의 내부 스핀 버튼 숨기기
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+    &:focus {
+        outline: none;
     }
 `;
 
