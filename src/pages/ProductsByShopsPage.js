@@ -1,9 +1,9 @@
 import React from 'react';
-import ProductList from "../components/ProductList/ProductList";
 import TopNavbar from "../components/TopNavbar/TopNavbar";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from "react-router-dom";
+import ProductsByShopsList from "../components/ProductList/ProductsByShopsList";
 
-function Main() {
+function ProductsByShopsPage() {
     const navigate = useNavigate();
 
     const handleCategorySelection = (categoryId) => {
@@ -13,9 +13,9 @@ function Main() {
     return (
         <div>
             <TopNavbar onCategorySelect={handleCategorySelection} />
-            <ProductList />
+            <ProductsByShopsList />
         </div>
     );
 }
 
-export default Main;
+export default ProductsByShopsPage;
