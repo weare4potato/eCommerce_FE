@@ -29,7 +29,7 @@ const Header = () => {
                         <li className="nav-item">
                             <a className="nav-link" href="/home" onClick={(e) => {
                                 e.preventDefault();
-                                navigate('/home');
+                                navigate('/');
                             }}>Home</a>
                         </li>
                         {/* Other navigation links */}
