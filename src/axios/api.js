@@ -20,7 +20,7 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use((response) => {
     // 응답에 토큰이 있다면 토큰 저장
     try {
-        const res = response.headers['Authorization']
+        const res = response.headers.getAuthorization()
         console.log(res);
         if (!res) {
             return response;
