@@ -1,24 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 import {memberSignIn} from "../api/MemberLogin";
-import daumAddress from "./DaumAddress";
+import {useNavigate} from "react-router-dom";
 
 function MemberSignInPage() {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
 
     const signIn = async (event) => {
-        const userData = {email: email, password: password}
+        event.preventDefault();
         try {
-            event.preventDefault();
+            const userData = {email: email, password: password}
+
             await memberSignIn(userData);
 
-        }catch (e){
-            console.error(e);
+            let token = localStorage.getItem("Authorization");
+
+            if (token) {
+                navigate("/")
+            }
+        } catch (error) {
+            alert(error.response.data);
         }
-
-
     }
 
     return (
