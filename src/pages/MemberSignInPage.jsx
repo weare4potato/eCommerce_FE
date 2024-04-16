@@ -1,16 +1,19 @@
 import React from 'react';
 import styled from "styled-components";
 import {memberSignIn} from "../api/MemberLogin";
+import daumAddress from "./DaumAddress";
 
 function MemberSignInPage() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
 
-    const signIn = async () => {
+    const signIn = async (event) => {
         const userData = {email: email, password: password}
         try {
+            event.preventDefault();
             await memberSignIn(userData);
+
         }catch (e){
             console.error(e);
         }
