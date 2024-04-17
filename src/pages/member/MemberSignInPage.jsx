@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {memberSignIn} from "../../api/MemberApi";
 import {useNavigate} from "react-router-dom";
 
-function dataParse(data)  {
+function dataParse(data) {
     const jsonString = JSON.stringify(data);
     const parsedObj = JSON.parse(jsonString);
     return parsedObj.message;
@@ -13,7 +13,6 @@ function MemberSignInPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
 
     const signIn = async (event) => {
         event.preventDefault();

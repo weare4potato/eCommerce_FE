@@ -11,6 +11,7 @@ import Main from "../pages/Main";
 import ProductsByCategoryPage from "../pages/ProductsByCategoryPage";
 import ProductsByShopsPage from "../pages/ProductsByShopsPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
+import ReceiverMainPage from "../pages/receiver/ReceiverMainPage";
 
 const Router = () => {
     return (
@@ -26,6 +27,7 @@ const Router = () => {
                 <Route path="/signup" element={<MemberSignUpPage/>}/>
                 <Route path="/shops/login" element={<StoreSignInPage/>}/>
                 <Route path="/shops/signup" element={<StoreSignUpPage/>}/>
+                <Route path="/receiver" element={<ReceiverMainPage/>}/>
             </Routes>
             <Footer />
         </BrowserRouter>
