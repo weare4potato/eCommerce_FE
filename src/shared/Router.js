@@ -11,6 +11,8 @@ import Main from "../pages/Main";
 import ProductsByCategoryPage from "../pages/ProductsByCategoryPage";
 import ProductsByShopsPage from "../pages/ProductsByShopsPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
+import OrderListPage from "../pages/order/OrderListPage";
+import OrderCompletePage from "../pages/order/OrderCompletePage";
 import ReceiverMainPage from "../pages/receiver/ReceiverMainPage";
 
 const Router = () => {
@@ -28,6 +30,8 @@ const Router = () => {
                 <Route path="/shops/login" element={<StoreSignInPage/>}/>
                 <Route path="/shops/signup" element={<StoreSignUpPage/>}/>
                 <Route path="/receiver" element={<ReceiverMainPage/>}/>
+                <Route path="/orders" element={<OrderListPage/>}/>
+                <Route path="/orderComplete" element={<OrderCompletePage/>}/>
             </Routes>
             <Footer />
         </BrowserRouter>
