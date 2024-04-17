@@ -26,7 +26,10 @@ export const storeSignUp = async (StoreData) => {
 // 상점 정보를 가져오는 API 호출 함수
 export const fetchStoreDetails = async () => {
     try {
-        const response = await api.get('/shops');
+        const token = localStorage.getItem('Authorization');
+        const response = await api.get('/api/v1/shops', {
+            headers: { Authorization: token }
+        });
         return response.data;
     } catch (error) {
         console.error('상점 정보를 가져오는데 실패했습니다.', error);

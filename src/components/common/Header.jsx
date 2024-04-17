@@ -9,10 +9,15 @@ const Header = () => {
     useEffect(() => {
         const token = localStorage.getItem("Authorization");
 
-        if (token) {
-            setIsLogin(true)
-        }
+        setIsLogin(!!token); // 로컬 스토리지에서 토큰이 있는지 확인하여 로그인 상태 설정
     }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('Authorization'); // 로컬 스토리지에서 토큰 삭제
+        setIsLogin(false); // 로그인 상태 업데이트
+        navigate('/login'); // 로그인 페이지로 이동
+    };
+
     return (
         <header className="bg-light">
             <nav className="navbar navbar-expand-lg navbar-light container">
@@ -31,6 +36,12 @@ const Header = () => {
                                 e.preventDefault();
                                 navigate('/shops/login');
                             }}>상점 로그인</a>
+                        </li>
+                        <li>
+                            <a className="nav-link" href="/" onClick={(e) => {
+                                e.preventDefault();
+                                navigate('/dashboard');
+                            }}>대시보드</a>
                         </li>
                         {/* Other navigation links */}
                     </ul>
