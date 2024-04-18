@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const instance = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,
@@ -8,11 +7,11 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
     // 로그인 여부 확인
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = localStorage.getItem('Authorization');
 
     // 로그인 되었다면 헤더에 토큰 추가.
     if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
+        config.headers.Authorization = accessToken;
     }
     return config;
 });
