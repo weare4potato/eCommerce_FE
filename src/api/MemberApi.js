@@ -21,3 +21,18 @@ export const memberSignUp = async (MemberData) => {
         throw error;
     }
 };
+
+// 현재 로그인한 사용자의 정보를 가져오는 API
+export const getCurrentUser = async (token) => {
+    try {
+        const response = await api.get('/api/v1/users', {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch current user:', error);
+        throw error;
+    }
+};

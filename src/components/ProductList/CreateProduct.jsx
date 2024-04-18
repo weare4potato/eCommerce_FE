@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { getOneDepthCategories, getTwoDepthCategories, getThreeDepthCategories } from '../../api/CategoryApi';
-import { createProduct } from '../../api/ProductApi';
+import React, {useState, useEffect} from 'react';
+import {getOneDepthCategories, getTwoDepthCategories, getThreeDepthCategories} from '../../api/CategoryApi';
+import {createProduct} from '../../api/ProductApi';
+import { useNavigate} from 'react-router-dom';
 
-const CreateProduct = ({ token }) => {
+const CreateProduct = ({token}) => {
     // 상태 관리
+    const navigate = useNavigate();
     const [oneDepthCategories, setOneDepthCategories] = useState([]);
     const [twoDepthCategories, setTwoDepthCategories] = useState([]);
     const [threeDepthCategories, setThreeDepthCategories] = useState([]);
@@ -56,8 +58,8 @@ const CreateProduct = ({ token }) => {
     }, [selectedTwoDepth]);
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setProductInfo(prev => ({ ...prev, [name]: value }));
+        const {name, value} = event.target;
+        setProductInfo(prev => ({...prev, [name]: value}));
     };
 
     const handleOneDepthChange = (event) => {
@@ -86,6 +88,7 @@ const CreateProduct = ({ token }) => {
             const response = await createProduct(productData, token);
             console.log(response);
             alert('상품 등록 완료');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Product creation failed:', error);
             alert('상품 등록 실패');
@@ -93,44 +96,72 @@ const CreateProduct = ({ token }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {/* oneDepth 카테고리 드롭다운 */}
-            <select name="oneDepth" value={selectedOneDepth} onChange={handleOneDepthChange}>
-                <option value="">대분류 선택</option>
-                {oneDepthCategories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                        {category.oneDepth}
-                    </option>
-                ))}
-            </select>
+        <div className="container">
+            <div className="row justify-content-center">
+                <div className="col-lg-6">
+                    <form onSubmit={handleSubmit} className="mt-5">
+                        {/* oneDepth 카테고리 드롭다운 */}
+                        <select name="oneDepth" value={selectedOneDepth} onChange={handleOneDepthChange}
+                                className="form-select">
+                            <option value="">대분류 선택</option>
+                            {oneDepthCategories.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.oneDepth}
+                                </option>
+                            ))}
+                        </select>
 
-            {/* twoDepth 카테고리 드롭다운 */}
-            <select name="twoDepth" value={selectedTwoDepth} onChange={handleTwoDepthChange}>
-                <option value="">중분류 선택</option>
-                {twoDepthCategories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                        {category.twoDepth}
-                    </option>
-                ))}
-            </select>
+                        {/* twoDepth 카테고리 드롭다운 */}
+                        <select name="twoDepth" value={selectedTwoDepth} onChange={handleTwoDepthChange}
+                                className="form-select">
+                            <option value="">중분류 선택</option>
+                            {twoDepthCategories.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.twoDepth}
+                                </option>
+                            ))}
+                        </select>
 
-            {/* threeDepth 카테고리 드롭다운 */}
-            <select name="threeDepth" value={selectedThreeDepth} onChange={handleThreeDepthChange}>
-                <option value="">소분류 선택</option>
-                {threeDepthCategories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                        {category.threeDepth}
-                    </option>
-                ))}
-            </select>
+                        {/* threeDepth 카테고리 드롭다운 */}
+                        <select name="threeDepth" value={selectedThreeDepth} onChange={handleThreeDepthChange}
+                                className="form-select">
+                            <option value="">소분류 선택</option>
+                            {threeDepthCategories.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.threeDepth}
+                                </option>
+                            ))}
+                        </select>
 
-            {/* 상품 정보 입력 폼 필드들 */}
-            <input type="text" name="name" value={productInfo.name} onChange={handleInputChange} placeholder="상품 이름" />
-            <input type="text" name="description" value={productInfo.description} onChange={handleInputChange} placeholder="상품 설명" />
-            <input type="number" name="price" value={productInfo.price} onChange={handleInputChange} placeholder="가격" />
-            <input type="number" name="stock" value={productInfo.stock} onChange={handleInputChange} placeholder="재고" />
-            <button type="submit">상품 등록</button>
-        </form>
+                        {/* 상품 정보 입력 폼 필드들 */}
+                        <div className="mb-3">
+                            <label htmlFor="productName" className="form-label">상품 이름</label>
+                            <input type="text" id="productName" name="name" value={productInfo.name}
+                                   onChange={handleInputChange}
+                                   placeholder="상품 이름" className="form-control"/>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="productDescription" className="form-label">상품 설명</label>
+                            <input type="text" id="productDescription" name="description"
+                                   value={productInfo.description}
+                                   onChange={handleInputChange} placeholder="상품 설명" className="form-control"/>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="productPrice" className="form-label">가격</label>
+                            <input type="number" id="productPrice" name="price" value={productInfo.price}
+                                   onChange={handleInputChange} placeholder="가격" className="form-control"/>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="productStock" className="form-label">재고</label>
+                            <input type="number" id="productStock" name="stock" value={productInfo.stock}
+                                   onChange={handleInputChange} placeholder="재고" className="form-control"/>
+                        </div>
+
+                        <button type="submit" className="btn btn-primary">상품 등록</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     );
 };
 
