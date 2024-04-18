@@ -27,9 +27,13 @@ export const storeSignUp = async (StoreData) => {
 export const fetchStoreDetails = async () => {
     try {
         const token = localStorage.getItem('Authorization');
-        const response = await api.get('/api/v1/shops', {
-            headers: { Authorization: token }
+        console.log('토큰', token);
+        const response = await api.get('/api/v1/shops/', {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token } ,
         });
+        console.log('상점 정보', response.data);
         return response.data;
     } catch (error) {
         console.error('상점 정보를 가져오는데 실패했습니다.', error);

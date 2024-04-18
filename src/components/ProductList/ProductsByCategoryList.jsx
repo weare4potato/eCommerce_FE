@@ -6,28 +6,31 @@ import ProductCard from './ProductCard';
 function ProductsByCategoryList() {
     const { categoryId } = useParams();
     const [products, setProducts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [size, setSize] = useState(10);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                console.log('Fetching products for category ID:', categoryId); // 카테고리 ID 로그
-                const response = await getProductsByCategory(categoryId);
-                console.log('Response:', response); // 응답 전체 로그
-                if (response && Array.isArray(response.content)) {
-                    console.log('Setting products:', response.content); // 설정될 상품 데이터 로그
+                console.log('Fetching products for category ID:', categoryId);
+                const response = await getProductsByCategory(categoryId, currentPage - 1, size);
+                if (response && response.content && response.totalPages) {
                     setProducts(response.content);
+                    setTotalPages(response.totalPages);
                 } else {
                     setProducts([]);
-                    console.log('No products found or response format is incorrect.'); // 데이터 없음 또는 형식 오류 로그
                 }
             } catch (error) {
                 console.error('Failed to fetch products:', error);
-                setProducts([]);  // 에러 발생 시 빈 배열로 초기화
+                setProducts([]);
             }
         };
 
         fetchProducts();
-    }, [categoryId]);
+    }, [categoryId, currentPage, size]);
+
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     return (
         <div className="container mt-4">
@@ -38,6 +41,17 @@ function ProductsByCategoryList() {
                     </div>
                 ))}
             </div>
+            <nav>
+                <ul className="pagination justify-content-center">
+                    {pageNumbers.map(number => (
+                        <li key={number} className={`page-item ${number === currentPage ? 'active' : ''}`}>
+                            <a onClick={() => setCurrentPage(number)} className="page-link">
+                                {number}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
         </div>
     );
 }

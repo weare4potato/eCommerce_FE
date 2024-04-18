@@ -1,9 +1,13 @@
 import api from '../axios/api';
 
 // 새 상품을 등록하는 API 호출 함수
-export const createProduct = async (productData) => {
+export const createProduct = async (productData, token) => {
     try {
-        const response = await api.post('/api/v1/products', productData);
+        const response = await api.post('/api/v1/products', productData, {
+            headers: {
+                Authorization: token
+            }
+        });
         return response.data;
     } catch (error) {
         console.error('새 상품을 등록하는데 실패했습니다.', error);
@@ -12,11 +16,13 @@ export const createProduct = async (productData) => {
 };
 
 // 모든 상품을 불러오는 API 호출 함수
-export const getAllProducts = async () => {
+export const getAllProducts = async (page = 0, size = 10) => {
     try {
-        const response = await api.get(`/api/v1/products/all`);
+        const response = await api.get(`/api/v1/products/all`, {
+            params: { page, size },
+        });
         console.log('getAllProducts response:', response.data); // 콘솔에 데이터 로깅
-        return response.data.content; // 'content' 필드가 기대하는 데이터를 포함하고 있는지 확인
+        return response.data; // 'content' 필드가 기대하는 데이터를 포함하고 있는지 확인
     } catch (error) {
         console.error('상품을 불러올 수 없습니다.', error);
         return []; // 에러가 발생하면 빈 배열 반환
@@ -53,8 +59,8 @@ export const getProductDetails = async (productId) => {
 // 상점 ID로 상점의 상품을 불러오는 API 호출 함수
 export const getProductsByShop = async (shopId, page = 0, size = 10) => {
     try {
-        const response = await api.get(`/api/v1/shops/${shopId}/shop-products`, {
-            params: { shopId, page, size }
+        const response = await api.get(`/api/v1/products/shops/${shopId}`, {
+            params: { page, size }
         });
         console.log("Products by shop response:", response);
         return response.data;

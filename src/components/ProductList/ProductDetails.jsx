@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import {getProductDetails} from '../../api/ProductApi';
 import styled from 'styled-components';
 
 const ProductDetails = () => {
     const {productId} = useParams();
+    const navigate = useNavigate();
     const [productDetails, setProductDetails] = useState(null);
     const [quantity, setQuantity] = useState(1);
 
@@ -24,6 +25,10 @@ const ProductDetails = () => {
     const handleQuantityChange = (event) => {
         const value = parseInt(event.target.value, 10);
         setQuantity(value >= 1 ? value : 1);
+    };
+
+    const navigateToShop = (shopId) => {
+        navigate(`/shops/${shopId}`);
     };
 
     const increment = () => setQuantity(quantity + 1);
@@ -55,6 +60,12 @@ const ProductDetails = () => {
                 </CounterContainer>
                 <ActionButton className="btn btn-primary me-2">장바구니 담기</ActionButton>
                 <ActionButton className="btn btn-secondary">바로 구매</ActionButton>
+                <ShopNameText>
+                    판매자:
+                    <ShopNameLink onClick={() => navigateToShop(productDetails.store.id)}>
+                        {productDetails.store.name}
+                    </ShopNameLink>
+                </ShopNameText>
             </QuantityAndButtonsContainer>
             <ProductDetailsTitle>
                 <TitleText>상세정보</TitleText>
@@ -76,6 +87,20 @@ const TotalAmountContainer = styled.div`
 const Container = styled.div`
     margin-top: 4rem;
     width: 100%;
+`;
+
+const ShopNameText = styled.p`
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 1rem; // 상점 이름과 버튼 사이의 간격 조정
+`;
+
+const ShopNameLink = styled.a`
+    cursor: pointer;
+    color: #007bff;
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 const Card = styled.div`
@@ -109,6 +134,7 @@ const CardTitle = styled.h5`
 const CardText = styled.p`
     font-size: 18px;
     color: #333;
+    margin-bottom: 0.5rem;
 `;
 
 const QuantityAndButtonsContainer = styled.div`
