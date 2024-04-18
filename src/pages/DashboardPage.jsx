@@ -32,7 +32,7 @@ function DashboardPage() {
     };
 
     const goToNewProduct = () => {
-        navigate('/new-product'); // '새 상품 등록' 페이지로 이동
+        navigate('/createproduct'); // '새 상품 등록' 페이지로 이동
     };
 
     return (
