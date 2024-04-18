@@ -3,7 +3,6 @@ import {createReceiver} from "../../api/ReceiverApi";
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import DaumPostcode from "react-daum-postcode"
-import Modal from "bootstrap/js/src/modal";
 
 function ReceiverCreatePage() {
     const navigate = useNavigate();
