@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Navigate, redirect, useNavigate} from "react-router-dom";
+import React from "react";
+import {useNavigate} from "react-router-dom";
 import {deleteReceiver} from "../../api/ReceiverApi";
 
 

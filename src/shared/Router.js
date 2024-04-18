@@ -20,8 +20,7 @@ import OrderPage from "../pages/order/OrderPage"
 import CheckoutPage from "../pages/toss/CheckoutPage"
 import {SuccessPage} from "../pages/toss/SuccessPage";
 import {FailPage} from "../pages/toss/FailPage";
-
-
+import CartPage from "../pages/cart/CartPage";
 
 const Router = () => {
     return (
@@ -46,6 +45,7 @@ const Router = () => {
                 <Route path="/orders/:orderId/payment/toss" element={<CheckoutPage />} />
                 <Route path="/success" element={<SuccessPage />} />
                 <Route path="/fail" element={<FailPage />} />
+                <Route path="/carts" element={<CartPage/>}/>
             </Routes>
             <Footer />
         </BrowserRouter>

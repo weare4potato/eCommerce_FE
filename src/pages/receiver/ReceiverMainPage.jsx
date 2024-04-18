@@ -10,15 +10,14 @@ function ReceiverMainPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const getReceiver = async () => {
-            let response = await getReceivers();
-            console.log(response)
-            setReceivers(response)
-        }
-
         getReceiver()
     }, []);
 
+    const getReceiver = async () => {
+        let response = await getReceivers();
+        console.log(response);
+        setReceivers(response)
+    }
 
     const goToCreateReceiver = () => {
         navigate('/createReceiver'); // '등록 상품 목록' 페이지로 이동
