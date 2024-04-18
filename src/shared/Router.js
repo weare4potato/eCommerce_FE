@@ -16,6 +16,12 @@ import OrderCompletePage from "../pages/order/OrderCompletePage";
 import ReceiverMainPage from "../pages/receiver/ReceiverMainPage";
 import ReceiverCreatePage from "../pages/receiver/ReceiverCreatePage";
 import ReceiverUpdatePage from "../pages/receiver/ReceiverUpdatePage";
+import OrderPage from "../pages/order/OrderPage"
+import CheckoutPage from "../pages/toss/CheckoutPage"
+import {SuccessPage} from "../pages/toss/SuccessPage";
+import {FailPage} from "../pages/toss/FailPage";
+
+
 
 const Router = () => {
     return (
@@ -34,8 +40,12 @@ const Router = () => {
                 <Route path="/receiver" element={<ReceiverMainPage/>}/>
                 <Route path="/receiver/:receiverId" element={<ReceiverUpdatePage/>}/>
                 <Route path="/createReceiver" element={<ReceiverCreatePage/>}/>
-                <Route path="/orders" element={<OrderListPage/>}/>
+                <Route path="/orders/list" element={<OrderListPage/>}/>
                 <Route path="/orderComplete" element={<OrderCompletePage/>}/>
+                <Route path="/orders" element={<OrderPage />} />
+                <Route path="/orders/:orderId/payment/toss" element={<CheckoutPage />} />
+                <Route path="/success" element={<SuccessPage />} />
+                <Route path="/fail" element={<FailPage />} />
             </Routes>
             <Footer />
         </BrowserRouter>
