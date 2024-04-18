@@ -4,18 +4,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Header = () => {
     const navigate = useNavigate();
-    const [isLogin, setIsLogin] = useState(false)
+    const [token, setToken] = useState('')
 
     useEffect(() => {
-        const token = localStorage.getItem("Authorization");
+        const localToken = localStorage.getItem("Authorization");
+        setToken(localToken);// 로컬 스토리지에서 토큰이 있는지 확인하여 로그인 상태 설정
+    }, [window.location.pathname]);
 
-        setIsLogin(!!token); // 로컬 스토리지에서 토큰이 있는지 확인하여 로그인 상태 설정
-    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('Authorization'); // 로컬 스토리지에서 토큰 삭제
-        setIsLogin(false); // 로그인 상태 업데이트
+        setToken(''); // 로그인 상태 업데이트
         navigate('/login'); // 로그인 페이지로 이동
+    };
+
+    const handleReceivers = () => {
+        navigate('/receiver'); // 로그인 페이지로 이동
+    };
+
+    const handleCarts= () => {
+        navigate('/carts'); // 로그인 페이지로 이동
     };
 
     return (
@@ -45,17 +53,18 @@ const Header = () => {
                         </li>
                         {/* Other navigation links */}
                     </ul>
-                    {!isLogin && (
+                    {!token && (
                         <div className="navbar-nav">
                             <button className="btn btn-outline-primary me-2" onClick={() => navigate('/login')}>Login
                             </button>
                             <button className="btn btn-primary" onClick={() => navigate('/signup')}>Sign-up</button>
                         </div>
                     )}
-                    {isLogin && (
+                    {token && (
                         <div className="navbar-nav">
-                            <button className="btn btn-outline-primary me-2" onClick={handleLogout}>Logout
-                            </button>
+                            <button className="btn btn-outline-primary me-2" onClick={handleCarts}>장바구니</button>
+                            <button className="btn btn-outline-primary me-2" onClick={handleReceivers}>주소목록</button>
+                            <button className="btn btn-outline-primary me-2" onClick={handleLogout}>Logout</button>
                         </div>
                     )}
                 </div>

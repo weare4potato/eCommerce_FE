@@ -14,14 +14,13 @@ function dataParse(data) {
 
 function CartPage() {
     const navigate = useNavigate();
-    const state = useState()
     const [cartData, setCartData] = useState([])
     const [productData, setProductData] = useState([])
     const [combinedData, setCombinedData] = useState([])
 
     useEffect(() => {
         getCartData()
-    }, [])
+    },[])
 
     const getCartData = async () => {
         try {
