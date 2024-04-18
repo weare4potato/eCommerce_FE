@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import {storeSignUp} from "../../api/StoreApi";
-import {createBusinessNumber} from "../../api/Revenue";
+import {createBusinessNumber} from "../../api/RevenueApi";
 import {useNavigate} from "react-router-dom";
 
 function dataParse(data) {

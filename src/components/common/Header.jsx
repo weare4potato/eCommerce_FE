@@ -54,7 +54,7 @@ const Header = () => {
                     )}
                     {isLogin && (
                         <div className="navbar-nav">
-                            <button className="btn btn-outline-primary me-2" onClick={() => navigate('/login')}>Logout
+                            <button className="btn btn-outline-primary me-2" onClick={handleLogout}>Logout
                             </button>
                         </div>
                     )}

@@ -13,6 +13,9 @@ import ProductsByShopsPage from "../pages/ProductsByShopsPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
 import OrderListPage from "../pages/order/OrderListPage";
 import OrderCompletePage from "../pages/order/OrderCompletePage";
+import ReceiverMainPage from "../pages/receiver/ReceiverMainPage";
+import ReceiverCreatePage from "../pages/receiver/ReceiverCreatePage";
+import ReceiverUpdatePage from "../pages/receiver/ReceiverUpdatePage";
 
 const Router = () => {
     return (
@@ -28,6 +31,9 @@ const Router = () => {
                 <Route path="/signup" element={<MemberSignUpPage/>}/>
                 <Route path="/shops/login" element={<StoreSignInPage/>}/>
                 <Route path="/shops/signup" element={<StoreSignUpPage/>}/>
+                <Route path="/receiver" element={<ReceiverMainPage/>}/>
+                <Route path="/receiver/:receiverId" element={<ReceiverUpdatePage/>}/>
+                <Route path="/createReceiver" element={<ReceiverCreatePage/>}/>
                 <Route path="/orders" element={<OrderListPage/>}/>
                 <Route path="/orderComplete" element={<OrderCompletePage/>}/>
             </Routes>
