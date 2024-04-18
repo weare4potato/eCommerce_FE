@@ -100,6 +100,7 @@ function CartPage() {
         }
 
         const orderData = combinedData.map(item => {
+
             if(!item.isSelected){
                 return null
             }
