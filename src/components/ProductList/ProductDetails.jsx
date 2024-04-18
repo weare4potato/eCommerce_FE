@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {getProductDetails} from '../../api/ProductApi';
 import styled from 'styled-components';
+import {addToCart} from "../../api/CartApi";
+import {getCurrentUser} from "../../api/MemberApi";
 
 const ProductDetails = () => {
     const {productId} = useParams();
@@ -9,10 +11,12 @@ const ProductDetails = () => {
     const [productDetails, setProductDetails] = useState(null);
     const [quantity, setQuantity] = useState(1);
 
+
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
                 const details = await getProductDetails(productId);
+                console.log('Fetched product details:', details);
                 setProductDetails(details);
             } catch (error) {
                 console.error('상품 상세 정보를 불러오는 데 실패했습니다.', error);
@@ -36,6 +40,49 @@ const ProductDetails = () => {
 
     const totalAmount = productDetails ? (quantity * productDetails.price) : 0;
 
+    const handleBuyNow = () => {
+        const token = localStorage.getItem('Authorization');
+
+        if (!token) {
+            navigate('/login');
+        } else {
+            const orderDetails = {
+                productId: productDetails.productId,
+                quantity: quantity,
+                price: productDetails.price,
+            };
+
+            navigate('/order', { state: orderDetails });
+        }
+    };
+
+    const handleAddToCart = async () => {
+        const token = localStorage.getItem('Authorization');
+
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            navigate('/login');
+        } else {
+            try {
+                console.log('productId from URL:', productId); // URL에서 가져온 productId 확인
+                console.log('quantity from state:', quantity); // 상태에서 가져온 quantity 확인
+
+                // 현재 사용자의 ID를 조회합니다.
+                const currentUser = await getCurrentUser(token);
+                console.log('Current user:', currentUser);
+                const memberId = currentUser.id; // 혹은 적절한 프로퍼티를 사용합니다.
+
+                // 장바구니에 상품을 추가합니다.
+                const cartResponse = await addToCart(productId, quantity, token);
+                console.log('Cart response:', cartResponse);
+                alert('장바구니에 상품이 추가되었습니다.');
+            } catch (error) {
+                alert('장바구니에 상품을 추가하지 못했습니다.');
+                console.error(error);
+            }
+        }
+    };
+
     if (!productDetails) return <div>Loading...</div>;
 
     return (
@@ -58,8 +105,8 @@ const ProductDetails = () => {
                     <IncrementDecrementButton onClick={increment}>+</IncrementDecrementButton>
                     <IncrementDecrementButton onClick={decrement}>-</IncrementDecrementButton>
                 </CounterContainer>
-                <ActionButton className="btn btn-primary me-2">장바구니 담기</ActionButton>
-                <ActionButton className="btn btn-secondary">바로 구매</ActionButton>
+                <ActionButton className="btn btn-primary me-2" onClick={handleAddToCart}>장바구니 담기</ActionButton>
+                <ActionButton className="btn btn-secondary" onClick={handleBuyNow}>바로 구매</ActionButton>
                 <ShopNameText>
                     판매자:
                     <ShopNameLink onClick={() => navigateToShop(productDetails.store.id)}>
