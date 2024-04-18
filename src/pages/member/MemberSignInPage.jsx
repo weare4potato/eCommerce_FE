@@ -24,7 +24,7 @@ function MemberSignInPage() {
             let token = localStorage.getItem("Authorization");
 
             if (token) {
-                navigate("/")
+                navigate('/')
             }
         } catch (error) {
             alert(dataParse(error.response.data));
