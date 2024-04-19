@@ -32,15 +32,11 @@ function OrderComponent() {
   const location = useLocation();
   const { state } = location;
 
-  console.log(state);
-  // console.log(productDetails);
   useEffect(() => {
-    // orderId를 기반으로 주문 정보를 가져오는 로직
     fetchMember();
   }, []);
 
   useEffect(() => {
-    // orderId를 기반으로 주문 정보를 가져오는 로직
     fetchReceiver();
   }, []);
 
@@ -55,13 +51,11 @@ function OrderComponent() {
   }, []);
 
   const fetchMember = async () => {
-    // orderId를 기반으로 서버에서 주문 정보 가져오기
     let memberData = await getMember();
     setMember(memberData);
   };
 
   const fetchReceiver = async () => {
-    // orderId를 기반으로 서버에서 주문 정보 가져오기
     let receiversData = await getReceivers();
     setReceivers(receiversData);
   };
@@ -75,7 +69,8 @@ function OrderComponent() {
     if (selectedReceiver !== null) {
       let orderData = {
         memberId: member.id,
-        receiverId: selectedReceiver.id,
+        receiverId: 1,
+        // selectedReceiver.id
         type: "CARD",
         totalAmount: totalAmount,
         orderProducts: state
