@@ -52,7 +52,7 @@ const ProductDetails = () => {
                 price: productDetails.price,
             };
 
-            navigate('/order', { state: orderDetails });
+            navigate('/orders', { state: orderDetails });
         }
     };
 
