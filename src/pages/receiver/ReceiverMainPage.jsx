@@ -15,7 +15,6 @@ function ReceiverMainPage() {
 
     const getReceiver = async () => {
         let response = await getReceivers();
-        console.log(response);
         setReceivers(response)
     }
 

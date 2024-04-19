@@ -10,17 +10,14 @@ function DashboardPage() {
 
     useEffect(() => {
         const token = localStorage.getItem('Authorization');
-        console.log('Token from localStorage:', token); // Step 1: 콘솔에서 토큰 출력하여 확인
 
         if (!token) {
-            console.log('No token found, redirecting to login'); // 로그인 토큰 없음 로그
             navigate('/shops/login');
         } else {
-            fetchStoreDetails(token).then(data => { // Step 2: 함수에 토큰을 인자로 전달
-                console.log('Store Details:', data); // 서버로부터 받은 데이터 로그
+            fetchStoreDetails(token).then(data => {
                 setStoreDetails(data.name); // 상점 이름을 상태에 저장하도록 수정
             }).catch(error => {
-                console.error('Failed to fetch store details:', error); // Step 3: 에러 로그
+                console.error('상점 정보를 가져올 수 없습니다.', error);
                 localStorage.removeItem('Authorization');
                 navigate('/shops/login');
             });

@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getProductDetails, updateProduct } from '../../api/ProductApi';
 import {getOneDepthCategories, getTwoDepthCategories, getThreeDepthCategories} from '../../api/CategoryApi';
-import {createProduct} from '../../api/ProductApi';
-import { useNavigate} from 'react-router-dom';
 
-const CreateProduct = ({token}) => {
-    // 상태 관리
+const UpdateProduct = ({ token }) => {
     const navigate = useNavigate();
+    const { productId } = useParams();
     const [oneDepthCategories, setOneDepthCategories] = useState([]);
     const [twoDepthCategories, setTwoDepthCategories] = useState([]);
     const [threeDepthCategories, setThreeDepthCategories] = useState([]);
@@ -13,13 +13,13 @@ const CreateProduct = ({token}) => {
     const [selectedTwoDepth, setSelectedTwoDepth] = useState('');
     const [selectedThreeDepth, setSelectedThreeDepth] = useState('');
     const [productInfo, setProductInfo] = useState({
-        name: '',
+        productName: '',
         description: '',
         price: 0,
         stock: 0,
+        productCategoryId: ''
     });
 
-    // oneDepth 카테고리 로드
     useEffect(() => {
         const fetchOneDepthCategories = async () => {
             const data = await getOneDepthCategories();
@@ -29,38 +29,49 @@ const CreateProduct = ({token}) => {
         fetchOneDepthCategories();
     }, []);
 
-    // twoDepth 카테고리 로드
+    useEffect(() => {
+        const fetchProductInfo = async () => {
+            try {
+                const data = await getProductDetails(productId);
+                setProductInfo({
+                    productName: data.productName,
+                    description: data.description,
+                    price: data.price,
+                    stock: data.stock,
+                    productCategoryId: data.productCategoryId
+                });
+                // 카테고리 ID를 기반으로 상위 카테고리 선택
+                setSelectedOneDepth(data.oneDepthCategoryId);
+                setSelectedTwoDepth(data.twoDepthCategoryId);
+                setSelectedThreeDepth(data.threeDepthCategoryId);
+            } catch (error) {
+                console.error('상품의 상세정보를 불러올 수 없습니다.', error);
+            }
+        };
+
+        fetchProductInfo();
+    }, [productId]);
+
+    // 선택된 상위 카테고리에 따른 하위 카테고리 정보 불러오기
     useEffect(() => {
         const fetchTwoDepthCategories = async () => {
             const data = await getTwoDepthCategories(selectedOneDepth);
             setTwoDepthCategories(data);
+            setSelectedTwoDepth(data.length > 0 ? data[0].id : '');
         };
 
-        if (selectedOneDepth) {
-            fetchTwoDepthCategories();
-        } else {
-            setTwoDepthCategories([]);
-        }
+        if (selectedOneDepth) fetchTwoDepthCategories();
     }, [selectedOneDepth]);
 
-    // threeDepth 카테고리 로드
     useEffect(() => {
         const fetchThreeDepthCategories = async () => {
             const data = await getThreeDepthCategories(selectedTwoDepth);
             setThreeDepthCategories(data);
+            setSelectedThreeDepth(data.length > 0 ? data[0].id : '');
         };
 
-        if (selectedTwoDepth) {
-            fetchThreeDepthCategories();
-        } else {
-            setThreeDepthCategories([]);
-        }
+        if (selectedTwoDepth) fetchThreeDepthCategories();
     }, [selectedTwoDepth]);
-
-    const handleInputChange = (event) => {
-        const {name, value} = event.target;
-        setProductInfo(prev => ({...prev, [name]: value}));
-    };
 
     const handleOneDepthChange = (event) => {
         setSelectedOneDepth(event.target.value);
@@ -74,22 +85,27 @@ const CreateProduct = ({token}) => {
         setSelectedThreeDepth(event.target.value);
     };
 
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setProductInfo(prev => ({ ...prev, [name]: value }));
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const productData = {
-            ...productInfo,
-            productCategoryId: parseInt(selectedThreeDepth, 10),
-            price: parseFloat(productInfo.price),
-            stock: parseInt(productInfo.stock, 10)
-        };
-
         try {
-            const response = await createProduct(productData, token);
-            alert('상품 등록 완료');
+            const updatedProductData = {
+                ...productInfo,
+                productCategoryId: parseInt(selectedThreeDepth, 10),
+                price: parseFloat(productInfo.price),
+                stock: parseInt(productInfo.stock, 10)
+            };
+
+            await updateProduct(productId, updatedProductData, token);
+            alert('상품 수정 완료');
             navigate('/dashboard');
         } catch (error) {
-            console.error('상품 등록 실패.', error);
-            alert('상품 등록 실패');
+            console.error('상품 수정 실패.', error);
+            alert('상품 수정 실패');
         }
     };
 
@@ -134,7 +150,7 @@ const CreateProduct = ({token}) => {
                         {/* 상품 정보 입력 폼 필드들 */}
                         <div className="mb-3">
                             <label htmlFor="productName" className="form-label">상품 이름</label>
-                            <input type="text" id="productName" name="name" value={productInfo.name}
+                            <input type="text" id="productName" name="productName" value={productInfo.productName}
                                    onChange={handleInputChange}
                                    placeholder="상품 이름" className="form-control"/>
                         </div>
@@ -155,7 +171,7 @@ const CreateProduct = ({token}) => {
                                    onChange={handleInputChange} placeholder="재고" className="form-control"/>
                         </div>
 
-                        <button type="submit" className="btn btn-primary">상품 등록</button>
+                        <button type="submit" className="btn btn-primary">상품 수정</button>
                     </form>
                 </div>
             </div>
@@ -163,4 +179,4 @@ const CreateProduct = ({token}) => {
     );
 };
 
-export default CreateProduct;
+export default UpdateProduct;

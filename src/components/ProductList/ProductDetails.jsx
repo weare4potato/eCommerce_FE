@@ -16,7 +16,6 @@ const ProductDetails = () => {
         const fetchProductDetails = async () => {
             try {
                 const details = await getProductDetails(productId);
-                console.log('Fetched product details:', details);
                 setProductDetails(details);
             } catch (error) {
                 console.error('상품 상세 정보를 불러오는 데 실패했습니다.', error);
@@ -64,17 +63,12 @@ const ProductDetails = () => {
             navigate('/login');
         } else {
             try {
-                console.log('productId from URL:', productId); // URL에서 가져온 productId 확인
-                console.log('quantity from state:', quantity); // 상태에서 가져온 quantity 확인
-
-                // 현재 사용자의 ID를 조회합니다.
+                // 현재 사용자의 ID를 조회
                 const currentUser = await getCurrentUser(token);
-                console.log('Current user:', currentUser);
-                const memberId = currentUser.id; // 혹은 적절한 프로퍼티를 사용합니다.
+                const memberId = currentUser.id;
 
-                // 장바구니에 상품을 추가합니다.
+                // 장바구니에 상품을 추가
                 const cartResponse = await addToCart(productId, quantity, token);
-                console.log('Cart response:', cartResponse);
                 alert('장바구니에 상품이 추가되었습니다.');
             } catch (error) {
                 alert('장바구니에 상품을 추가하지 못했습니다.');

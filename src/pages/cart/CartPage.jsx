@@ -36,18 +36,17 @@ function CartPage() {
         try {
             const productIds = data.map(cart => cart.productId);
             const products = await Promise.all(productIds.map(getProductDetails));
-            console.log(products)
             setProductData(products);
         } catch (error) {
-            console.log("Error fetching product data:", error);
+            console.log("상품을 불러올 수 없습니다.", error);
         }
     };
 
     useEffect(() => {
         const combinedData = cartData.map(cartItem => {
             const productItem = productData.find(product => product.productId === cartItem.productId);
-            if (!productItem) { // productItem이 undefined인 경우를 처리합니다.
-                return null; // 또는 적절한 기본값을 반환할 수 있습니다.
+            if (!productItem) { // productItem이 undefined인 경우를 처리
+                return null;
             }
             return {
                 cartId: cartItem.cartId,
@@ -109,8 +108,6 @@ function CartPage() {
                 quantity: item.quantity,
             }
         })
-
-        console.log(orderData);
         navigate("/orders", {state : orderData})
     }
 

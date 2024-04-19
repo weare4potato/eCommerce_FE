@@ -36,7 +36,7 @@ function StoreSignUpPage() {
 
         try {
             await storeSignUp(storeData);
-            navigate("/")
+            navigate('/')
 
         } catch (error) {
             alert(dataParse(error.response.data));

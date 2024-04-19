@@ -95,7 +95,7 @@ function ReceiverCreatePage() {
                         </input>
                     </div>
                     <div className="group">
-                        <StyledInput className="btn btn-primary" type="submit" value="수정"/>
+                        <StyledInput className="btn btn-primary" type="submit" value="생성"/>
                     </div>
                 </form>
             </div>

@@ -3,12 +3,10 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {createOrder, getMember, getTotalAmount} from "../../api/OrderApi";
 import {getReceivers} from "../../api/ReceiverApi";
 
-// MainButton 컴포넌트: 배송지 변경 버튼
 const MainButton = ({ onClick }) => (
     <button onClick={onClick}>배송지 변경</button>
 );
 
-// DropdownMenu 컴포넌트: 드롭다운 메뉴
 const DropdownMenu = ({ receivers, onSelectReceiver }) => (
     <div className="receiver-list">
       <h4>수령자 목록</h4>
@@ -46,7 +44,6 @@ function OrderComponent() {
       setTotalAmount(totalAmountData);
     })
     .catch(error => {
-      // 에러 처리
     });
   }, []);
 
@@ -84,7 +81,7 @@ function OrderComponent() {
 
   const handleCancel = () => {
     // Cart 페이지로 이동
-    navigate('/'); // 어디로?
+    navigate('/');
   };
 
   return (

@@ -37,8 +37,8 @@ function CartCard({cart, onUpdateQuantity, toggleCheckBox}) {
 const IncrementDecrementButton = styled.button`
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
-    padding: 0.5rem; // 여기서는 버튼의 크기를 조절합니다.
-    margin: 0; // 버튼 사이의 간격을 제거합니다.
+    padding: 0.5rem;
+    margin: 0;
 
     &:hover {
         background-color: #e9ecef;
