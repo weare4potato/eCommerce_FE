@@ -111,7 +111,7 @@ function CartPage() {
         })
 
         console.log(orderData);
-        navigate("/order", {state : orderData})
+        navigate("/orders", {state : orderData})
     }
 
     return (
