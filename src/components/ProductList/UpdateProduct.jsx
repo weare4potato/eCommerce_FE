@@ -45,7 +45,7 @@ const UpdateProduct = ({ token }) => {
                 setSelectedTwoDepth(data.twoDepthCategoryId);
                 setSelectedThreeDepth(data.threeDepthCategoryId);
             } catch (error) {
-                console.error('Failed to fetch product details:', error);
+                console.error('상품의 상세정보를 불러올 수 없습니다.', error);
             }
         };
 
@@ -104,7 +104,7 @@ const UpdateProduct = ({ token }) => {
             alert('상품 수정 완료');
             navigate('/dashboard');
         } catch (error) {
-            console.error('Product update failed:', error);
+            console.error('상품 수정 실패.', error);
             alert('상품 수정 실패');
         }
     };

@@ -13,7 +13,6 @@ function ProductsByCategoryList() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                console.log('Fetching products for category ID:', categoryId);
                 const response = await getProductsByCategory(categoryId, currentPage - 1, size);
                 if (response && response.content && response.totalPages) {
                     setProducts(response.content);
@@ -22,7 +21,7 @@ function ProductsByCategoryList() {
                     setProducts([]);
                 }
             } catch (error) {
-                console.error('Failed to fetch products:', error);
+                console.error('상품을 불러올 수 없습니다.', error);
                 setProducts([]);
             }
         };

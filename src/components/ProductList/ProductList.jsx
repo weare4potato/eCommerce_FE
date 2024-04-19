@@ -4,22 +4,22 @@ import ProductCard from './ProductCard';
 
 function ProductList() {
     const [products, setProducts] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); // 페이지는 일반적으로 1부터 시작합니다.
+    const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const [size, setSize] = useState(10); // 페이지당 상품 수
+    const [size, setSize] = useState(10);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await getAllProducts(currentPage - 1, size); // 페이지 인덱스는 0부터 시작하므로 -1을 합니다.
+                const response = await getAllProducts(currentPage - 1, size);
                 if (response && response.content && response.totalPages) {
                     setProducts(response.content);
-                    setTotalPages(response.totalPages); // 전체 페이지 수 설정
+                    setTotalPages(response.totalPages);
                 } else {
                     setProducts([]);
                 }
             } catch (error) {
-                console.error('Failed to fetch products:', error);
+                console.error('상품 목록을 불러올 수 없습니다.', error);
                 setProducts([]);
             }
         };
@@ -27,7 +27,7 @@ function ProductList() {
         fetchProducts();
     }, [currentPage, size]);
 
-    // 페이지 숫자를 렌더링하기 위한 배열을 생성합니다.
+    // 페이지 숫자를 렌더링하기 위한 배열
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     return (

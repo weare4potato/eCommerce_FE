@@ -15,15 +15,15 @@ const Header = () => {
     const handleLogout = () => {
         localStorage.removeItem('Authorization'); // 로컬 스토리지에서 토큰 삭제
         setToken(''); // 로그인 상태 업데이트
-        navigate('/login'); // 로그인 페이지로 이동
+        navigate('/login');
     };
 
     const handleReceivers = () => {
-        navigate('/receiver'); // 로그인 페이지로 이동
+        navigate('/receiver');
     };
 
     const handleCarts= () => {
-        navigate('/carts'); // 로그인 페이지로 이동
+        navigate('/carts');
     };
 
     return (
@@ -51,7 +51,6 @@ const Header = () => {
                                 navigate('/dashboard');
                             }}>대시보드</a>
                         </li>
-                        {/* Other navigation links */}
                     </ul>
                     {!token && (
                         <div className="navbar-nav">

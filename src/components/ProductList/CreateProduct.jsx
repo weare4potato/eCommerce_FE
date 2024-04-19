@@ -76,7 +76,6 @@ const CreateProduct = ({token}) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Token:', token);
         const productData = {
             ...productInfo,
             productCategoryId: parseInt(selectedThreeDepth, 10),
@@ -86,11 +85,10 @@ const CreateProduct = ({token}) => {
 
         try {
             const response = await createProduct(productData, token);
-            console.log(response);
             alert('상품 등록 완료');
             navigate('/dashboard');
         } catch (error) {
-            console.error('Product creation failed:', error);
+            console.error('상품 등록 실패.', error);
             alert('상품 등록 실패');
         }
     };

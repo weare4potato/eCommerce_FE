@@ -32,7 +32,7 @@ export const getCurrentUser = async (token) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Failed to fetch current user:', error);
+        console.error('유저를 찾을 수 없습니다.', error);
         throw error;
     }
 };

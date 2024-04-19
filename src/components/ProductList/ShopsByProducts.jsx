@@ -13,9 +13,6 @@ const ShopsByProducts = ({token}) => {
     useEffect(() => {
         const getProducts = async () => {
             try {
-                console.log('Current page:', currentPage);
-                console.log('Size:', size);
-
                 const response = await fetchStoreProducts(currentPage - 1, size);
 
                 if (response && response.content && response.totalPages) {
@@ -25,7 +22,7 @@ const ShopsByProducts = ({token}) => {
                     setProducts([]);
                 }
             } catch (error) {
-                console.error('Error fetching products:', error);
+                console.error('상품을 불러올 수 없습니다.', error);
                 setProducts([]);
             }
         };

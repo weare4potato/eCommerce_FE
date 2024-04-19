@@ -1,13 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function ProductCard({ product }) {
-    console.log('Product in card:', product);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        console.log('ProductCard rendering with product:', product);
-    }, [product]);
 
     const handleCardClick = () => {
         navigate(`/products/${product.id}`);
