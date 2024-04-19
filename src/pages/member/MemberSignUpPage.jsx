@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import {memberSignUp} from "../../api/MemberApi";
+import {useNavigate} from "react-router-dom";
 
 
 function MemberSignUpPage() {
@@ -8,6 +9,7 @@ function MemberSignUpPage() {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [phone, setPhone] = useState('');
+    const navigate = useNavigate();
 
     const signUp = async (e) => {
         e.preventDefault();
@@ -19,6 +21,7 @@ function MemberSignUpPage() {
         };
         try {
             await memberSignUp(userData);
+            navigate('/')
         } catch (error) {
             alert(error.response.data);
         }
@@ -59,7 +62,7 @@ function MemberSignUpPage() {
                                    aria-describedby="basic-addon1"/>
                         </div>
                         <div className="group">
-                            <StyledInput className="btn btn-primary" type="submit" value="Sing in"/>
+                            <StyledInput className="btn btn-primary" type="submit" value="회원가입"/>
                         </div>
                     </form>
                 </div>
