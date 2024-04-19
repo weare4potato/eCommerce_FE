@@ -60,3 +60,17 @@ export const getTotalAmount = async (state) => {
         throw error;
     }
 }
+
+export const postOrder = async (orderId, paymentReq) => {
+    try {
+        const token = localStorage.getItem('Authorization');
+        const response = await api.post(`/api/v1/payments/toss/confirm/${orderId}`, paymentReq,
+            {headers: { Authorization: token }}
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error('결제 요청을 실패했습니다.', error);
+        throw error;
+    }
+}

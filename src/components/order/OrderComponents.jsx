@@ -53,7 +53,6 @@ function OrderComponent() {
   };
 
   const fetchReceiver = async () => {
-
     let receiversData = await getReceivers();
     setReceivers(receiversData);
   };
@@ -67,7 +66,8 @@ function OrderComponent() {
     if (selectedReceiver !== null) {
       let orderData = {
         memberId: member.id,
-        receiverId: selectedReceiver.id,
+        receiverId: 1,
+        // selectedReceiver.id
         type: "CARD",
         totalAmount: totalAmount,
         orderProducts: state

@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {loadPaymentWidget} from "@tosspayments/payment-widget-sdk";
 import {useNavigate, useParams} from "react-router-dom";
 import api from "../../axios/api";
+import {postOrder} from "../../api/OrderApi";
 
 const selector = "#payment-widget";
 
@@ -16,12 +17,9 @@ function CheckoutPage() {
   const [order, setOrder] = useState(null);
   const {navigate} = useNavigate();
 
-  console.log("clientKey : ", clientKey);
-
   useEffect(() => {
     // orderId를 기반으로 주문 정보를 가져오는 로직
     fetchOrder();
-    console.log("1");
   }, [orderId]);
 
 
@@ -29,7 +27,6 @@ function CheckoutPage() {
     // orderId를 기반으로 서버에서 주문 정보 가져오기
     try {
       const response = await api.get(`/api/v1/orders/${orderId}`); // 적절한 엔드포인트를 사용하세요
-      console.log(response);
       setOrder(response.data);
       setPrice(response.data.totalAmount);
     } catch (error) {
@@ -38,7 +35,6 @@ function CheckoutPage() {
   };
 
   useEffect(() => {
-    console.log("2");
     const fetchPaymentWidget = async () => {
       try {
         const loadedWidget = await loadPaymentWidget(clientKey, customerKey);
@@ -52,7 +48,6 @@ function CheckoutPage() {
     }, []);
 
   useEffect(() => {
-    console.log("3");
     if (paymentWidget == null) {
       return;
     }
@@ -69,7 +64,6 @@ function CheckoutPage() {
   }, [paymentWidget, price]);
 
   useEffect(() => {
-    console.log("4");
     const paymentMethodsWidget = paymentMethodsWidgetRef.current;
 
     if (paymentMethodsWidget == null) {
@@ -89,7 +83,7 @@ function CheckoutPage() {
   const handlePaymentRequest = async () => {
     // TODO: 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
     // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
-    try {
+    try{
       await paymentWidget?.requestPayment({
         orderId: order.orderNum,
         orderName: "orderName",
@@ -99,12 +93,11 @@ function CheckoutPage() {
         successUrl: `${window.location.origin}/success`,
         failUrl: `${window.location.origin}/fail`,
       });
-      // navigate(`/success`);
+
     } catch (error) {
-      console.error("Error requesting payment:", error);
+      console.error("결제 요청 실패:", error)
     }
   };
-
   return (
       <div className="wrapper">
         <div className="box_section">
