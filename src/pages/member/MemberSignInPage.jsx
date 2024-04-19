@@ -52,7 +52,7 @@ function MemberSignInPage() {
                                    aria-describedby="basic-addon1"/>
                         </div>
                         <div className="group">
-                            <StyledInput className="btn btn-primary" onSubmit={signIn} type="submit" value="Sing in"/>
+                            <StyledInput className="btn btn-primary" onSubmit={signIn} type="submit" value="로그인"/>
                         </div>
                     </form>
                 </div>
