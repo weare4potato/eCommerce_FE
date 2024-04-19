@@ -3,12 +3,10 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {createOrder, getMember, getTotalAmount} from "../../api/OrderApi";
 import {getReceivers} from "../../api/ReceiverApi";
 
-// MainButton 컴포넌트: 배송지 변경 버튼
 const MainButton = ({ onClick }) => (
     <button onClick={onClick}>배송지 변경</button>
 );
 
-// DropdownMenu 컴포넌트: 드롭다운 메뉴
 const DropdownMenu = ({ receivers, onSelectReceiver }) => (
     <div className="receiver-list">
       <h4>수령자 목록</h4>
@@ -32,15 +30,11 @@ function OrderComponent() {
   const location = useLocation();
   const { state } = location;
 
-  console.log(state);
-  // console.log(productDetails);
   useEffect(() => {
-    // orderId를 기반으로 주문 정보를 가져오는 로직
     fetchMember();
   }, []);
 
   useEffect(() => {
-    // orderId를 기반으로 주문 정보를 가져오는 로직
     fetchReceiver();
   }, []);
 
@@ -50,18 +44,16 @@ function OrderComponent() {
       setTotalAmount(totalAmountData);
     })
     .catch(error => {
-      // 에러 처리
     });
   }, []);
 
   const fetchMember = async () => {
-    // orderId를 기반으로 서버에서 주문 정보 가져오기
     let memberData = await getMember();
     setMember(memberData);
   };
 
   const fetchReceiver = async () => {
-    // orderId를 기반으로 서버에서 주문 정보 가져오기
+
     let receiversData = await getReceivers();
     setReceivers(receiversData);
   };
@@ -89,7 +81,7 @@ function OrderComponent() {
 
   const handleCancel = () => {
     // Cart 페이지로 이동
-    navigate('/'); // 어디로?
+    navigate('/');
   };
 
   return (

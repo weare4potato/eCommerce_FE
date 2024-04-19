@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { completeOrder } from '../../api/OrderApi'; // completeOrder 함수를 가져옵니다.
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-
 function OrderCompletePage() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -14,10 +12,9 @@ function OrderCompletePage() {
     const { receiver, paymentType, totalAmount } = location.state.order; // 주문 정보에서 받는 사람과 결제 정보를 가져옵니다.
     useEffect(() => {
 
-        // 주문을 생성합니다.
+        // 주문을 생성
         completeOrder({ receiver, paymentType, totalAmount })
             .then(() => {
-                console.log('주문이 성공적으로 생성되었습니다.');
             })
             .catch((error) => {
                 console.error('주문 생성에 실패했습니다:', error);
