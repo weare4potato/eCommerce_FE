@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {updateReceiver, getReceiver} from "../../api/ReceiverApi";
+import {getReceiver, updateReceiver} from "../../api/ReceiverApi";
 import styled from "styled-components";
 import {useNavigate, useParams} from "react-router-dom";
 import DaumPostcode from "react-daum-postcode"
@@ -7,7 +7,6 @@ import DaumPostcode from "react-daum-postcode"
 function ReceiverUpdatePage() {
     const navigate = useNavigate();
     const {receiverId} = useParams();
-
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [city, setCity] = useState("");
@@ -36,7 +35,7 @@ function ReceiverUpdatePage() {
             setAddressData(addressData)
         }
         getReceiverData()
-    }, []);
+    }, [receiverId]);
 
     const update = async (e) => {
         e.preventDefault();

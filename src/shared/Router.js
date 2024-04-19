@@ -16,12 +16,13 @@ import OrderCompletePage from "../pages/order/OrderCompletePage";
 import ReceiverMainPage from "../pages/receiver/ReceiverMainPage";
 import ReceiverCreatePage from "../pages/receiver/ReceiverCreatePage";
 import ReceiverUpdatePage from "../pages/receiver/ReceiverUpdatePage";
+import CreateProductPage from "../pages/CreateProductPage";
+import ShopsByProducts from "../components/ProductList/ShopsByProducts";
 import OrderPage from "../pages/order/OrderPage"
 import CheckoutPage from "../pages/toss/CheckoutPage"
 import {SuccessPage} from "../pages/toss/SuccessPage";
 import {FailPage} from "../pages/toss/FailPage";
-
-
+import CartPage from "../pages/cart/CartPage";
 
 const Router = () => {
     return (
@@ -42,10 +43,13 @@ const Router = () => {
                 <Route path="/createReceiver" element={<ReceiverCreatePage/>}/>
                 <Route path="/orders/list" element={<OrderListPage/>}/>
                 <Route path="/orderComplete" element={<OrderCompletePage/>}/>
+                <Route path="/createproduct" element={<CreateProductPage/>}/>
+                <Route path="/shops/products" element={<ShopsByProducts/>}/>
                 <Route path="/orders" element={<OrderPage />} />
                 <Route path="/orders/:orderId/payment/toss" element={<CheckoutPage />} />
                 <Route path="/success" element={<SuccessPage />} />
                 <Route path="/fail" element={<FailPage />} />
+                <Route path="/carts" element={<CartPage/>}/>
             </Routes>
             <Footer />
         </BrowserRouter>

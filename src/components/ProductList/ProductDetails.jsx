@@ -1,17 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import {getProductDetails} from '../../api/ProductApi';
 import styled from 'styled-components';
+import {addToCart} from "../../api/CartApi";
+import {getCurrentUser} from "../../api/MemberApi";
 
 const ProductDetails = () => {
     const {productId} = useParams();
+    const navigate = useNavigate();
     const [productDetails, setProductDetails] = useState(null);
     const [quantity, setQuantity] = useState(1);
+
 
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
                 const details = await getProductDetails(productId);
+                console.log('Fetched product details:', details);
                 setProductDetails(details);
             } catch (error) {
                 console.error('상품 상세 정보를 불러오는 데 실패했습니다.', error);
@@ -26,10 +31,57 @@ const ProductDetails = () => {
         setQuantity(value >= 1 ? value : 1);
     };
 
+    const navigateToShop = (shopId) => {
+        navigate(`/shops/${shopId}`);
+    };
+
     const increment = () => setQuantity(quantity + 1);
     const decrement = () => setQuantity(quantity > 1 ? quantity - 1 : 1);
 
     const totalAmount = productDetails ? (quantity * productDetails.price) : 0;
+
+    const handleBuyNow = () => {
+        const token = localStorage.getItem('Authorization');
+
+        if (!token) {
+            navigate('/login');
+        } else {
+            const orderDetails = {
+                productId: productDetails.productId,
+                quantity: quantity,
+                price: productDetails.price,
+            };
+
+            navigate('/orders', { state: orderDetails });
+        }
+    };
+
+    const handleAddToCart = async () => {
+        const token = localStorage.getItem('Authorization');
+
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            navigate('/login');
+        } else {
+            try {
+                console.log('productId from URL:', productId); // URL에서 가져온 productId 확인
+                console.log('quantity from state:', quantity); // 상태에서 가져온 quantity 확인
+
+                // 현재 사용자의 ID를 조회합니다.
+                const currentUser = await getCurrentUser(token);
+                console.log('Current user:', currentUser);
+                const memberId = currentUser.id; // 혹은 적절한 프로퍼티를 사용합니다.
+
+                // 장바구니에 상품을 추가합니다.
+                const cartResponse = await addToCart(productId, quantity, token);
+                console.log('Cart response:', cartResponse);
+                alert('장바구니에 상품이 추가되었습니다.');
+            } catch (error) {
+                alert('장바구니에 상품을 추가하지 못했습니다.');
+                console.error(error);
+            }
+        }
+    };
 
     if (!productDetails) return <div>Loading...</div>;
 
@@ -53,8 +105,14 @@ const ProductDetails = () => {
                     <IncrementDecrementButton onClick={increment}>+</IncrementDecrementButton>
                     <IncrementDecrementButton onClick={decrement}>-</IncrementDecrementButton>
                 </CounterContainer>
-                <ActionButton className="btn btn-primary me-2">장바구니 담기</ActionButton>
-                <ActionButton className="btn btn-secondary">바로 구매</ActionButton>
+                <ActionButton className="btn btn-primary me-2" onClick={handleAddToCart}>장바구니 담기</ActionButton>
+                <ActionButton className="btn btn-secondary" onClick={handleBuyNow}>바로 구매</ActionButton>
+                <ShopNameText>
+                    판매자:
+                    <ShopNameLink onClick={() => navigateToShop(productDetails.store.id)}>
+                        {productDetails.store.name}
+                    </ShopNameLink>
+                </ShopNameText>
             </QuantityAndButtonsContainer>
             <ProductDetailsTitle>
                 <TitleText>상세정보</TitleText>
@@ -76,6 +134,20 @@ const TotalAmountContainer = styled.div`
 const Container = styled.div`
     margin-top: 4rem;
     width: 100%;
+`;
+
+const ShopNameText = styled.p`
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 1rem; // 상점 이름과 버튼 사이의 간격 조정
+`;
+
+const ShopNameLink = styled.a`
+    cursor: pointer;
+    color: #007bff;
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 const Card = styled.div`
@@ -109,6 +181,7 @@ const CardTitle = styled.h5`
 const CardText = styled.p`
     font-size: 18px;
     color: #333;
+    margin-bottom: 0.5rem;
 `;
 
 const QuantityAndButtonsContainer = styled.div`

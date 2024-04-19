@@ -28,11 +28,11 @@ function DashboardPage() {
     }, [navigate]);
 
     const goToProducts = () => {
-        navigate('/products'); // '등록 상품 목록' 페이지로 이동
+        navigate('/shops/products'); // '등록 상품 목록' 페이지로 이동
     };
 
     const goToNewProduct = () => {
-        navigate('/new-product'); // '새 상품 등록' 페이지로 이동
+        navigate('/createproduct'); // '새 상품 등록' 페이지로 이동
     };
 
     return (

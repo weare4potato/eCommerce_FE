@@ -6,6 +6,14 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
+
+    //경로에 따라 컨텐트타입지정, 기본적으로는 application/json 입니다.
+    // if (config.url === '/api/question_file') {
+    //     config.headers['Content-Type'] = 'multipart/form-data';
+    // } else {
+    //     config.headers['Content-Type'] = 'application/json';
+    // }
+
     // 로그인 여부 확인
     const accessToken = localStorage.getItem('Authorization');
 
@@ -20,7 +28,6 @@ instance.interceptors.response.use((response) => {
     // 응답에 토큰이 있다면 토큰 저장
     try {
         const res = response.headers.getAuthorization()
-        console.log(res);
         if (!res) {
             return response;
         }

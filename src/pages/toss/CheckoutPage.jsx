@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { loadPaymentWidget, ANONYMOUS } from "@tosspayments/payment-widget-sdk";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import React, {useEffect, useRef, useState} from "react";
+import {loadPaymentWidget} from "@tosspayments/payment-widget-sdk";
+import {useNavigate, useParams} from "react-router-dom";
 import api from "../../axios/api";
 
 const selector = "#payment-widget";
@@ -48,7 +47,7 @@ export function CheckoutPage() {
     };
 
     fetchPaymentWidget();
-  }, []);
+  });
 
   useEffect(() => {
     if (paymentWidget == null) {

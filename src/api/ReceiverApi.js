@@ -2,10 +2,8 @@ import api from "../axios/api";
 
 export const getReceivers = async () => {
     try {
-
-        let token = localStorage.getItem("Authorization");
         const response = await api.get('/api/v1/users/receivers');
-        console.log(response);
+
         return response.data
     } catch (error) {
         throw error;
@@ -14,10 +12,8 @@ export const getReceivers = async () => {
 };
 export const getReceiver = async (receiverId) => {
     try {
-
-        let token = localStorage.getItem("Authorization");
         const response = await api.get(`/api/v1/users/receivers/${receiverId}`);
-        console.log(response);
+
         return response.data
     } catch (error) {
         throw error;
@@ -30,7 +26,6 @@ export const createReceiver = async (ReceiverData) => {
         const response = await api.post('/api/v1/users/receivers', ReceiverData);
 
         return response.data;
-
     } catch (error) {
         console.error('생성을 실패했습니다 .', error);
         throw error;
