@@ -23,6 +23,8 @@ import CheckoutPage from "../pages/toss/CheckoutPage"
 import {SuccessPage} from "../pages/toss/SuccessPage";
 import {FailPage} from "../pages/toss/FailPage";
 import CartPage from "../pages/cart/CartPage";
+import UpdateProductPage from "../pages/UpdateProductPage";
+import ShopsByProductsPage from "../pages/ShopsByProductsPage";
 
 const Router = () => {
     return (
@@ -44,12 +46,13 @@ const Router = () => {
                 <Route path="/orders/list" element={<OrderListPage/>}/>
                 <Route path="/orderComplete" element={<OrderCompletePage/>}/>
                 <Route path="/createproduct" element={<CreateProductPage/>}/>
-                <Route path="/shops/products" element={<ShopsByProducts/>}/>
+                <Route path="/shops/products" element={<ShopsByProductsPage/>}/>
                 <Route path="/orders" element={<OrderPage />} />
                 <Route path="/orders/:orderId/payment/toss" element={<CheckoutPage />} />
                 <Route path="/success" element={<SuccessPage />} />
                 <Route path="/fail" element={<FailPage />} />
                 <Route path="/carts" element={<CartPage/>}/>
+                <Route path="/updateProduct/:productId" element={<UpdateProductPage/>}/>
             </Routes>
             <Footer />
         </BrowserRouter>
