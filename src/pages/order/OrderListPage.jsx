@@ -1,39 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
-import { getOrders } from '../../api/OrderApi';
+import React, {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {getOrders} from "../../api/OrderApi";
 import styled from 'styled-components';
 
-function OrderListPage() {
+function OrderListPage(token) {
     const [orders, setOrders] = useState([]); // 주문 목록을 저장할 상태
-    const [cookies] = useCookies(['token']);
-    const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [size, setSize] = useState(10);
 
     useEffect(() => {
-        // 로그인된 상태인지 확인
-        if (cookies.token) {
-            // 주문 목록을 가져오는 함수 호출
-            fetchOrders().catch(error => {
-                console.error('주문 목록을 불러오는 중 에러 발생:', error);
-            });
-        } else {
-            // 로그인되어 있지 않다면 로그인 페이지로 이동
-            navigate('/login');
-        }
-    }, [cookies.token, navigate]);
+        const fetchOrders = async () => {
+            try {
+                const response = await getOrders(currentPage - 1, size);
 
-    // 주문 목록을 가져오는 함수
-    const fetchOrders = async () => {
-        try {
-            // 주문 목록 가져오기
-            const ordersData = await getOrders(cookies.token);
-            // 가져온 주문 목록을 상태에 저장
-            setOrders(ordersData);
-        } catch (error) {
-            console.error('주문 목록을 불러오는 중 에러 발생:', error);
-        }
-    };
+                if (response && response.content && response.totalPages) {
+                    setOrders(response.content);
+                    setTotalPages(response.totalPages);
+                } else {
+                    setOrders([])
+                }
+                ;
+            } catch (error) {
+                console.error('주문을 불러올 수 없습니다.', error);
+                setOrders([]);
+            }
+        };
+        fetchOrders();
+    }, [currentPage, size]);
+
+    const pageNumbers = Array.from({length: totalPages}, (_, i) => i + 1);
 
     return (
         <StyledContainer>
@@ -41,10 +37,21 @@ function OrderListPage() {
             <ul>
                 {orders.map(order => (
                     <li key={order.orderId}>
-                        주문 번호: {order.orderNum}, 상태: {order.orderStatus}, 주문 일자: {order.orderedAt}
+                        주문 번호: {order.orderNum}, 상태: {order.status}, 주문 일자: {order.orderedAt}
                     </li>
                 ))}
             </ul>
+            <nav>
+                <ul className="pagination justify-content-center">
+                    {pageNumbers.map(number => (
+                        <li key={number} className={`page-item ${number === currentPage ? 'active' : ''}`}>
+                            <a onClick={() => setCurrentPage(number)} className="page-link">
+                                {number}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
         </StyledContainer>
     );
 }
