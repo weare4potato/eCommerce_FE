@@ -113,7 +113,7 @@ function ReceiverUpdatePage() {
                         </input>
                     </div>
                     <div className="group">
-                        <StyledInput className="btn btn-primary" type="submit" value="등록"/>
+                        <StyledInput className="btn btn-primary" type="submit" value="수정"/>
                     </div>
                 </form>
             </div>
