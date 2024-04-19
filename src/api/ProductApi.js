@@ -69,3 +69,33 @@ export const getProductsByShop = async (shopId, page = 0, size = 10) => {
         throw error;
     }
 };
+
+// 상품 ID로 상품을 수정하는 API 호출 함수
+export const updateProduct = async (productId, productData, token) => {
+    try {
+        const response = await api.put(`/api/v1/products/${productId}`, productData, {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Failed to update product:', error);
+        throw error;
+    }
+};
+
+// 상품 ID로 상품을 삭제하는 API 호출 함수
+export const deleteProduct = async (productId, token) => {
+    try {
+        const response = await api.delete(`/api/v1/products/${productId}`, {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Failed to delete product:', error);
+        throw error;
+    }
+};
