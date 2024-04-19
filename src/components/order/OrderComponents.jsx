@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {createOrder, getMember, getTotalAmount} from "../../api/OrderApi";
 import {getReceivers} from "../../api/ReceiverApi";
 
@@ -28,11 +28,12 @@ function OrderComponent() {
   const [receivers, setReceivers] = useState([]);
   const [selectedReceiver, setSelectedReceiver] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // 드롭다운 상태 관리
-  const [productDetails, setProductDetails] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-  // const [] = useParams();
+  const location = useLocation();
+  const { state } = location;
 
-  console.log(receivers);
+  console.log(state);
+  // console.log(productDetails);
   useEffect(() => {
     // orderId를 기반으로 주문 정보를 가져오는 로직
     fetchMember();
@@ -44,7 +45,7 @@ function OrderComponent() {
   }, []);
 
   useEffect(() => {
-    getTotalAmount(productDetails)
+    getTotalAmount(state)
     .then(totalAmountData => {
       setTotalAmount(totalAmountData);
     })
@@ -75,14 +76,14 @@ function OrderComponent() {
       let orderData = {
         memberId: member.id,
         receiverId: selectedReceiver.id,
-        type: "SAMPLE1",
+        type: "CARD",
         totalAmount: totalAmount,
-        orderProducts: productDetails
+        orderProducts: state
       }
       let OrderRes = await createOrder(orderData)
       navigate(`/orders/${OrderRes.id}/payment/toss`)
     } else {
-      console.error('배송지를 선택해 주세요');
+      alert('배송지를 선택해 주세요');
     }
   }
 
@@ -112,7 +113,7 @@ function OrderComponent() {
             {selectedReceiver && (
                 <>
                   <p>이름 : {selectedReceiver.name}</p>
-                  <p>배송주소 : {selectedReceiver.address}</p>
+                  <p>배송주소 : {selectedReceiver.city} {selectedReceiver.street}{selectedReceiver.zipcode}</p>
                   <p>연락처 : {selectedReceiver.phone}</p>
                 </>
             )}
