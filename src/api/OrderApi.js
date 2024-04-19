@@ -49,10 +49,11 @@ export const getMember = async () => {
     }
 };
 
-export const getTotalAmount = async (productDetails) => {
+export const getTotalAmount = async (state) => {
     try{
-        return productDetails.reduce((accumulator, productDetail) => {
-            return accumulator + (productDetail.price * productDetail.quantity);
+        return state.reduce((accumulator, state) => {
+            console.log(state.productPrice);
+            return accumulator + (state.productPrice * state.quantity);
         }, 0);
     } catch (error) {
         console.error('상품 정보를 가져오는데 실패했습니다.', error);

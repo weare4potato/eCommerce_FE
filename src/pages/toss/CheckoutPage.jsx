@@ -8,7 +8,7 @@ const selector = "#payment-widget";
 const clientKey = process.env.REACT_APP_CLIENT_KEY;
 const customerKey = "mJ3orpAqVfMzA0fNqK6T-";
 
-export function CheckoutPage() {
+function CheckoutPage() {
   const [paymentWidget, setPaymentWidget] = useState(null);
   const paymentMethodsWidgetRef = useRef(null);
   const [price, setPrice] = useState(0);
@@ -16,13 +16,14 @@ export function CheckoutPage() {
   const [order, setOrder] = useState(null);
   const {navigate} = useNavigate();
 
+  console.log("clientKey : ", clientKey);
+
   useEffect(() => {
     // orderId를 기반으로 주문 정보를 가져오는 로직
     fetchOrder();
+    console.log("1");
   }, [orderId]);
 
-  console.log(price);
-  console.log(order);
 
   const fetchOrder = async () => {
     // orderId를 기반으로 서버에서 주문 정보 가져오기
@@ -37,6 +38,7 @@ export function CheckoutPage() {
   };
 
   useEffect(() => {
+    console.log("2");
     const fetchPaymentWidget = async () => {
       try {
         const loadedWidget = await loadPaymentWidget(clientKey, customerKey);
@@ -47,9 +49,10 @@ export function CheckoutPage() {
     };
 
     fetchPaymentWidget();
-  });
+    }, []);
 
   useEffect(() => {
+    console.log("3");
     if (paymentWidget == null) {
       return;
     }
@@ -66,6 +69,7 @@ export function CheckoutPage() {
   }, [paymentWidget, price]);
 
   useEffect(() => {
+    console.log("4");
     const paymentMethodsWidget = paymentMethodsWidgetRef.current;
 
     if (paymentMethodsWidget == null) {
@@ -75,20 +79,27 @@ export function CheckoutPage() {
     paymentMethodsWidget.updateAmount(price);
   }, [price]);
 
+  function orderName() {
+    if(order.historyInfos.length > 1){
+      return order.historyInfos[0].product.name + '외 ' + order.historyInfos.length - 1 + '건 결제';
+    }
+    return order.historyInfos[0].product.name
+  }
+
   const handlePaymentRequest = async () => {
     // TODO: 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
     // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
     try {
       await paymentWidget?.requestPayment({
         orderId: order.orderNum,
-        orderName: "화난다 리액트",
+        orderName: "orderName",
         customerName: order.member.username,
         customerEmail: order.member.email,
         customerMobilePhone: order.member.phone,
         successUrl: `${window.location.origin}/success`,
         failUrl: `${window.location.origin}/fail`,
       });
-      navigate(`/orders/payment/toss/success`);
+      // navigate(`/success`);
     } catch (error) {
       console.error("Error requesting payment:", error);
     }
