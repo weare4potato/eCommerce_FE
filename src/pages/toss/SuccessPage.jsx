@@ -50,7 +50,7 @@ export function SuccessPage() {
           <p>{`paymentKey: ${searchParams.get("paymentKey")}`}</p>
         </div>
         <ButtonGroup>
-          <button onClick={() => navigate('/orders')} className="btn btn-primary">주문 목록으로</button>
+          <button onClick={() => navigate('/orders/List')} className="btn btn-primary">주문 목록으로</button>
           <button onClick={() => navigate('/')} className="btn btn-secondary">메인 페이지로</button>
         </ButtonGroup>
       </div>
@@ -58,10 +58,10 @@ export function SuccessPage() {
 }
 
 const ButtonGroup = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 20px;
 `;
 
 export default SuccessPage;
