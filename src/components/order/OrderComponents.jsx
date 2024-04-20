@@ -30,6 +30,8 @@ function OrderComponent() {
   const location = useLocation();
   const { state } = location;
 
+  console.log(state);
+
   useEffect(() => {
     fetchMember();
   }, []);
@@ -66,8 +68,7 @@ function OrderComponent() {
     if (selectedReceiver !== null) {
       let orderData = {
         memberId: member.id,
-        receiverId: 1,
-        // selectedReceiver.id
+        receiverId: selectedReceiver.id,
         type: "CARD",
         totalAmount: totalAmount,
         orderProducts: state

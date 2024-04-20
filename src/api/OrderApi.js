@@ -50,11 +50,20 @@ export const getMember = async () => {
 };
 
 export const getTotalAmount = async (state) => {
-    try{
-        return state.reduce((accumulator, state) => {
-            console.log(state.productPrice);
-            return accumulator + (state.productPrice * state.quantity);
-        }, 0);
+    try {
+        if (Array.isArray(state)) {
+            // 상태가 배열인 경우
+            return state.reduce((accumulator, item) => {
+                console.log(item.price);
+                return accumulator + (item.price * item.quantity);
+            }, 0);
+        } else if (typeof state === 'object' && state !== null) {
+            // 상태가 단일 객체인 경우
+            console.log(state.price);
+            return state.price * state.quantity;
+        } else {
+            throw new Error('올바른 상태가 아닙니다.');
+        }
     } catch (error) {
         console.error('상품 정보를 가져오는데 실패했습니다.', error);
         throw error;

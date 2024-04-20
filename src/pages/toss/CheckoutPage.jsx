@@ -3,6 +3,7 @@ import {loadPaymentWidget} from "@tosspayments/payment-widget-sdk";
 import {useNavigate, useParams} from "react-router-dom";
 import api from "../../axios/api";
 import {postOrder} from "../../api/OrderApi";
+import {get} from "axios";
 
 const selector = "#payment-widget";
 
@@ -73,9 +74,9 @@ function CheckoutPage() {
     paymentMethodsWidget.updateAmount(price);
   }, [price]);
 
-  function orderName() {
+  const getOrderName = () => {
     if(order.historyInfos.length > 1){
-      return order.historyInfos[0].product.name + '외 ' + order.historyInfos.length - 1 + '건 결제';
+      return order.historyInfos[0].product.name + '외 ' + (order.historyInfos.length - 1) + '건 결제';
     }
     return order.historyInfos[0].product.name
   }
@@ -84,9 +85,10 @@ function CheckoutPage() {
     // TODO: 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
     // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
     try{
+      console.log(getOrderName());
       await paymentWidget?.requestPayment({
         orderId: order.orderNum,
-        orderName: "orderName",
+        orderName: getOrderName(),
         customerName: order.member.username,
         customerEmail: order.member.email,
         customerMobilePhone: order.member.phone,
