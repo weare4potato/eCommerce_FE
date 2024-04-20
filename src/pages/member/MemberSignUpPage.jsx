@@ -3,6 +3,11 @@ import styled from "styled-components";
 import {memberSignUp} from "../../api/MemberApi";
 import {useNavigate} from "react-router-dom";
 
+function dataParse(data) {
+    const jsonString = JSON.stringify(data);
+    const parsedObj = JSON.parse(jsonString);
+    return parsedObj.message;
+}
 
 function MemberSignUpPage() {
     const [email, setEmail] = useState('');
@@ -20,10 +25,10 @@ function MemberSignUpPage() {
             phone: phone
         };
         try {
-            await memberSignUp(userData);
             navigate('/')
+            await memberSignUp(userData);
         } catch (error) {
-            alert(error.response.data);
+            alert(dataParse(error.response.data));
         }
     }
 
@@ -58,10 +63,11 @@ function MemberSignUpPage() {
                             <span className="input-group-text" id="basic-addon1">핸드폰</span>
                             <input type="text" className="form-control" value={phone}
                                    onChange={(e) => setPhone(e.target.value)}
-                                   placeholder="phone" aria-label="Password"
+                                   placeholder="ex) 01012341234" aria-label="Password"
                                    aria-describedby="basic-addon1"/>
                         </div>
                         <div className="group">
+                            <p>이메일 인증 후 로그인이 가능합니다.</p>
                             <StyledInput className="btn btn-primary" type="submit" value="회원가입"/>
                         </div>
                     </form>
