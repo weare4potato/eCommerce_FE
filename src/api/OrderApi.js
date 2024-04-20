@@ -78,3 +78,21 @@ export const getTotalAmount = async (state) => {
         throw error;
     }
 }
+export const orderComplete = async (orderNum) => {
+    try {
+        await api.post(`/api/v1/orders/${orderNum}/complete`, {});
+        // {headers: { Authorization: token }});
+    } catch (error) {
+        console.error('주문 상태 변화 실패', error);
+        throw error;
+    }
+}
+export const orderCancel = async (orderNum) => {
+    try {
+        await api.post(`/api/v1/orders/${orderNum}/cancel`, {});
+        // {headers: { Authorization: token }});
+    } catch (error) {
+        console.error('주문 상태 변화 실패', error);
+        throw error;
+    }
+}
