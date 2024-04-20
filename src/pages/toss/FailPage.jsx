@@ -1,7 +1,13 @@
 import { useSearchParams } from "react-router-dom";
+import {useEffect} from "react";
+import {orderCancel} from "../../api/OrderApi";
 
 export function FailPage() {
   const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    orderCancel(searchParams.get("orderId"))
+  }, []);
 
   return (
       <div className="result wrapper">

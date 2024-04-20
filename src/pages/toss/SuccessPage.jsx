@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import api from "../../axios/api";
+import {orderComplete} from "../../api/OrderApi";
 
 export function SuccessPage() {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export function SuccessPage() {
       // 결제 성공 비즈니스 로직을 구현하세요.
     }
     confirm();
+    orderComplete(searchParams.get("orderId"))
   }, [searchParams]);
 
   return (
