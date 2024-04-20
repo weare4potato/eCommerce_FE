@@ -66,13 +66,17 @@ function OrderComponent() {
 
   const  handlePayment = async () => {
     if (selectedReceiver !== null) {
+      let orderProducts = state;
+      if (!Array.isArray(orderProducts)) {
+        orderProducts = [orderProducts];
+      }
+
       let orderData = {
         memberId: member.id,
-        receiverId: 1,
-        // selectedReceiver.id
+        receiverId: selectedReceiver.id,
         type: "CARD",
         totalAmount: totalAmount,
-        orderProducts: state
+        orderProducts: orderProducts
       }
       let OrderRes = await createOrder(orderData)
       navigate(`/orders/${OrderRes.id}/payment/toss`)
