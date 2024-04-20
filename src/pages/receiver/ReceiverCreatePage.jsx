@@ -4,6 +4,12 @@ import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import DaumPostcode from "react-daum-postcode"
 
+function dataParse(data) {
+    const jsonString = JSON.stringify(data);
+    const parsedObj = JSON.parse(jsonString);
+    return parsedObj.message;
+}
+
 function ReceiverCreatePage() {
     const navigate = useNavigate();
 
@@ -32,7 +38,7 @@ function ReceiverCreatePage() {
             await createReceiver(receiverData);
             navigate("/receiver")
         } catch (error) {
-
+            alert(dataParse(error.response.data));
         }
 
     }
