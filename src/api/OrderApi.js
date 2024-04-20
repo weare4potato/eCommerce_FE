@@ -27,12 +27,21 @@ export const completeOrder = async (orderId) => {
 };
 
 // 주문 목록 페이지 API 호출 함수
-export const getOrders = async (orderData) => {
+export const getOrders = async (page = 0, size = 10) => {
     try {
-        const response = await api.get('/api/v1/orders');
+        const token = localStorage.getItem('Authorization');
+        const params = { page, size };
+
+        const response = await api.get('/api/v1/orders', {
+            params,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+            },
+        });
         return response.data;
     } catch (error) {
-        console.error('주문 내역 불러오기에 실패했습니다.', error);
+        console.error('주문 목록 조회 실패.', error);
         throw error;
     }
 };
@@ -41,7 +50,7 @@ export const getMember = async () => {
     try {
         const token = localStorage.getItem('Authorization');
         const response = await api.get('/api/v1/users');
-            // {headers: { Authorization: token }});
+        // {headers: { Authorization: token }});
         return response.data;
     } catch (error) {
         console.error('유저 정보를 가져오는데 실패했습니다.', error);
@@ -68,6 +77,7 @@ export const getTotalAmount = async (state) => {
         console.error('상품 정보를 가져오는데 실패했습니다.', error);
         throw error;
     }
+
 }
 
 export const postOrder = async (orderId, paymentReq) => {
