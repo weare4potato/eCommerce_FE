@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from "react";
 import {loadPaymentWidget} from "@tosspayments/payment-widget-sdk";
 import {useNavigate, useParams} from "react-router-dom";
 import api from "../../axios/api";
-import {postOrder} from "../../api/OrderApi";
 
 const selector = "#payment-widget";
 
