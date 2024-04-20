@@ -73,9 +73,9 @@ function CheckoutPage() {
     paymentMethodsWidget.updateAmount(price);
   }, [price]);
 
-  function orderName() {
+  const getOrderName = () => {
     if(order.historyInfos.length > 1){
-      return order.historyInfos[0].product.name + '외 ' + order.historyInfos.length - 1 + '건 결제';
+      return order.historyInfos[0].product.name + '외 ' + (order.historyInfos.length - 1) + '건 결제';
     }
     return order.historyInfos[0].product.name
   }
@@ -86,7 +86,7 @@ function CheckoutPage() {
     try{
       await paymentWidget?.requestPayment({
         orderId: order.orderNum,
-        orderName: "orderName",
+        orderName: getOrderName(),
         customerName: order.member.username,
         customerEmail: order.member.email,
         customerMobilePhone: order.member.phone,

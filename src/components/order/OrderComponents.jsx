@@ -30,6 +30,8 @@ function OrderComponent() {
   const location = useLocation();
   const { state } = location;
 
+  console.log(state);
+
   useEffect(() => {
     fetchMember();
   }, []);
