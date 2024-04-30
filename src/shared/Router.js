@@ -25,7 +25,6 @@ import {FailPage} from "../pages/toss/FailPage";
 import CartPage from "../pages/cart/CartPage";
 import UpdateProductPage from "../pages/UpdateProductPage";
 import ShopsByProductsPage from "../pages/ShopsByProductsPage";
-import ImageTest from "../imageTest/ImageTest";
 const Router = () => {
     return (
         <BrowserRouter>
@@ -53,7 +52,6 @@ const Router = () => {
                 <Route path="/fail" element={<FailPage />} />
                 <Route path="/carts" element={<CartPage/>}/>
                 <Route path="/updateProduct/:productId" element={<UpdateProductPage/>}/>
-                <Route path="/test" element={<ImageTest/>}/>
             </Routes>
             <Footer />
         </BrowserRouter>
