@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {getOneDepthCategories, getTwoDepthCategories, getThreeDepthCategories} from '../../api/CategoryApi';
+import React, {useEffect, useState} from 'react';
+import {getOneDepthCategories, getThreeDepthCategories, getTwoDepthCategories} from '../../api/CategoryApi';
 import {createProduct} from '../../api/ProductApi';
-import { useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const CreateProduct = ({token}) => {
     // 상태 관리
@@ -12,6 +12,8 @@ const CreateProduct = ({token}) => {
     const [selectedOneDepth, setSelectedOneDepth] = useState('');
     const [selectedTwoDepth, setSelectedTwoDepth] = useState('');
     const [selectedThreeDepth, setSelectedThreeDepth] = useState('');
+    const [productImage, setProductImage] = useState({});
+
     const [productInfo, setProductInfo] = useState({
         name: '',
         description: '',
@@ -74,15 +76,21 @@ const CreateProduct = ({token}) => {
         setSelectedThreeDepth(event.target.value);
     };
 
+    const handleImageInsert = (event) => {
+        if (event.target.files[0]) {
+            setProductImage(event.target.files[0])
+        }
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const productData = {
-            ...productInfo,
-            productCategoryId: parseInt(selectedThreeDepth, 10),
-            price: parseFloat(productInfo.price),
-            stock: parseInt(productInfo.stock, 10)
-        };
-
+        const productData = new FormData();
+        productData.append("name", productInfo.name)
+        productData.append("description", productInfo.description)
+        productData.append("productCategoryId", parseInt(selectedThreeDepth, 10))
+        productData.append("price", parseFloat(productInfo.price))
+        productData.append("stock", parseInt(productInfo.stock, 10));
+        productData.append("image", productImage);
         try {
             const response = await createProduct(productData, token);
             alert('상품 등록 완료');
@@ -92,6 +100,7 @@ const CreateProduct = ({token}) => {
             alert('상품 등록 실패');
         }
     };
+
 
     return (
         <div className="container">
@@ -131,7 +140,13 @@ const CreateProduct = ({token}) => {
                             ))}
                         </select>
 
+
                         {/* 상품 정보 입력 폼 필드들 */}
+                        <div className="mb-3">
+                            <label htmlFor="productName" className="form-label">상품 사진</label>
+                            <input type="file" id="productImage" name="name" onChange={(e) => handleImageInsert(e)} accept={"image/jpeg, image/png, image/jpg"}
+                                   placeholder="상품 사진" className="form-control"/>
+                        </div>
                         <div className="mb-3">
                             <label htmlFor="productName" className="form-label">상품 이름</label>
                             <input type="text" id="productName" name="name" value={productInfo.name}

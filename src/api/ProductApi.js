@@ -5,7 +5,8 @@ export const createProduct = async (productData, token) => {
     try {
         const response = await api.post('/api/v1/products', productData, {
             headers: {
-                Authorization: token
+                Authorization: token,
+                headers :{"Content-Type": "multipart/form-data"}
             }
         });
         return response.data;
