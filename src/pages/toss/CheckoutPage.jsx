@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from "react";
 import {loadPaymentWidget} from "@tosspayments/payment-widget-sdk";
 import {useNavigate, useParams} from "react-router-dom";
 import api from "../../axios/api";
-import {postOrder} from "../../api/OrderApi";
 
 const selector = "#payment-widget";
 
@@ -73,9 +72,9 @@ function CheckoutPage() {
     paymentMethodsWidget.updateAmount(price);
   }, [price]);
 
-  function orderName() {
+  const getOrderName = () => {
     if(order.historyInfos.length > 1){
-      return order.historyInfos[0].product.name + '외 ' + order.historyInfos.length - 1 + '건 결제';
+      return order.historyInfos[0].product.name + '외 ' + (order.historyInfos.length - 1) + '건 결제';
     }
     return order.historyInfos[0].product.name
   }
@@ -86,7 +85,7 @@ function CheckoutPage() {
     try{
       await paymentWidget?.requestPayment({
         orderId: order.orderNum,
-        orderName: "orderName",
+        orderName: getOrderName(),
         customerName: order.member.username,
         customerEmail: order.member.email,
         customerMobilePhone: order.member.phone,

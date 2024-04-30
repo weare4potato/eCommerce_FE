@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import api from "../../axios/api";
+import {orderComplete} from "../../api/OrderApi";
 
 export function SuccessPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  console.log(searchParams);
 
   useEffect(() => {
     // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
@@ -16,26 +20,19 @@ export function SuccessPage() {
     };
 
     async function confirm() {
-      const response = await fetch("/api/v1/payment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
+      const token = localStorage.getItem('Authorization');
+      const response = await api.post(`/api/v1/payments/toss/confirm/${searchParams.get("orderId")}`, requestData);
 
-      const json = await response.json();
-
-      if (!response.ok) {
+      if (!response) {
         // 결제 실패 비즈니스 로직을 구현하세요.
         navigate(`/fail`);
-        return;
       }
 
       // 결제 성공 비즈니스 로직을 구현하세요.
     }
     confirm();
-  }, []);
+    orderComplete(searchParams.get("orderId"))
+  }, [searchParams]);
 
   return (
       <div className="result wrapper">

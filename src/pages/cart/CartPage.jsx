@@ -93,22 +93,19 @@ function CartPage() {
     const handleBuy = () =>{
         const token = localStorage.getItem("Authorization");
 
-        if(!token){
+        if (!token) {
             navigate("/login");
         }
 
-        const orderData = combinedData.map(item => {
+        const orderData = combinedData
+        .filter(item => item.isSelected)
+        .map(item => ({
+            productId: item.productId,
+            price: item.productPrice,
+            quantity: item.quantity,
+        }));
 
-            if(!item.isSelected){
-                return null
-            }
-            return {
-                productId: item.productId,
-                productPrice : item.productPrice,
-                quantity: item.quantity,
-            }
-        })
-        navigate("/orders", {state : orderData})
+        navigate("/orders", { state: orderData });
     }
 
     return (
